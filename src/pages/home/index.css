@@ -1,0 +1,180 @@
+
+body /*Formata toda area existente*/
+{
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.cabecalho /*Formata o cabeçalho (header)*/
+{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 50px; 
+    width: 100%;
+    height: 100px;
+}
+
+.logo /*Formata o logo*/
+{
+    width: 120px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.container-Main /*Formata as prateleiras*/
+{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.prateleira /*Formata e direciona em linha as tres primeiras box*/
+{
+    gap: 40px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.prateleira2 /*Formata e direciona em linha as duas ultimas box*/
+{
+    gap: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.box /*Formata as caixas do menu de seleção*/
+{
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    min-width: 220px;
+    min-height: 150px; /* Ensure cards have a consistent height */
+}
+
+.icone /*Formata tamanho da imagem icone (Pedido, Controle, Configuração)*/
+{
+    width: 70px;
+    height: 70px;
+    padding: 0px 0px 5px 0px;
+    
+}
+
+.icone2 /*Formata tamanho da imagem icone (Clientes e gerenciamento)*/
+{
+    width: 90px;
+    height: 70px;
+} 
+
+.box:hover /*Formata o movimento das caixas*/
+{
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para telas de até 768px (tablets e telas menores) */
+@media (max-width: 768px) {
+    .cabecalho {
+        margin-bottom: 30px; /* Diminui a margem inferior do rodapé */
+        height: 80px; /* Reduz a altura do rodapé */
+    }
+
+    .logo {
+        width: 90px; /* Reduz o tamanho do logo */
+        height: 75px;
+    }
+
+    .container-Main {
+        gap: 20px; /* Reduz o espaçamento entre as prateleiras */
+    }
+
+    .prateleira,
+    .prateleira2 {
+        flex-direction: column; /* Faz com que as caixas se empilhem verticalmente */
+        gap: 20px; /* Reduz o espaçamento entre as caixas empilhadas */
+        align-items: center; /* Centraliza as caixas quando empilhadas */
+    }
+
+    .box {
+        padding: 25px 15px; /* Diminui o padding interno das caixas */
+        min-width: 180px; /* Reduz a largura mínima das caixas */
+        min-height: 130px; /* Reduz a altura mínima das caixas */
+    }
+
+    .icone,
+    .icone2 {
+        width: 60px; /* Reduz o tamanho dos ícones */
+        height: 60px;
+        padding: 0px 0px 8px 0px; /* Ajusta o padding para manter o espaçamento */
+    }
+}
+
+/* Estilos para telas de até 480px (celulares) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px; /* Diminui o padding do corpo para telas muito pequenas */
+    }
+
+    .rodaPe {
+        margin-bottom: 20px; /* Margem ainda menor para o rodapé */
+        height: 60px; /* Altura do rodapé menor */
+    }
+
+    .logo {
+        width: 70px; /* Logo ainda menor */
+        height: 55px;
+    }
+
+    .container-Main {
+        gap: 15px; /* Espaçamento menor entre as prateleiras */
+    }
+
+    .prateleira,
+    .prateleira2 {
+        gap: 15px; /* Espaçamento menor entre as caixas empilhadas */
+    }
+
+    .box {
+        padding: 20px 10px; /* Padding interno das caixas ainda menor */
+        min-width: 150px; /* Largura mínima das caixas para caber na tela */
+        min-height: 110px; /* Altura mínima das caixas */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais sutil */
+    }
+
+    .icone,
+    .icone2 {
+        width: 50px; /* Ícones menores para telas de celular */
+        height: 50px;
+        padding: 0px 0px 5px 0px; /* Ajuste final do padding */
+    }
+}
+/*Explicação das Mudanças
+@media (max-width: 768px)(Tablets e Telas Médias):
+
+.rodaPe: A margem inferior e a altura são reduzidas para economizar espaço.
+.logo: O tamanho do logo é diminuído.
+.container-Main: O gap (espaçamento) entre as prateleiras é reduzido.
+.prateleira, .prateleira2: O flex-direction muda para column (coluna), o que significa que as caixas dentro dessas prateleiras serão empilhadas verticalmente em vez de ficarem lado a lado. O gap é ajustado para o espaçamento entre as caixas empilhadas.
+.box: O padding, min-width e min-height das caixas são reduzidos para torná-las mais compactas.
+.icone, .icone2: O tamanho dos ícones é diminuído para caber melhor nas caixas menores.
+@media (max-width: 480px)(Celulares):
+
+Essa consulta de mídia se aplica a telas ainda menores e sobrescreve as regras da consulta de 768px.
+body: O padding geral da página é reduzido.
+.rodaPe, .logo, .container-Main, .prateleira, .prateleira2, .box, .icone, .icone2: As propriedades são ainda mais ajustadas e reduzidas para garantir que o layout seja funcional e visualmente agradável em telas de celular, com elementos ainda mais compactos e espaçamentos menores. A sombra das caixas (box-shadow) também é um pouco suavizada.*/

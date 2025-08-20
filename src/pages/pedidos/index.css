@@ -1,0 +1,120 @@
+
+body /*Formata toda area existente*/
+{
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.cabecalho2 /*Formata o rodape (header)*/
+{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+}
+
+.logo /*Formata o logo*/
+{
+    width: 80px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.barra-pesquisa /*Formata caixa de pesquisa*/
+{
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 15px;
+    background-color: #ddf0f5;
+    width: 350px;
+    height: 40px;
+}
+
+.search-input /*Formata caixa de pesquisa*/
+{
+    border: none;
+    background: transparent;
+    outline: none;
+    flex-grow: 1;
+    padding: 5px 0;
+    font-size: 0.95em;
+    color: #333;
+}
+
+.search-input::placeholder /*Formata o texto inicial dentro da caixa de pesquisa */
+{
+    color: #999;
+}
+
+.botao-pequisa /*Formata o botão lopa dentro da caixa de pesquisa*/
+{
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 0 5px;
+    margin-left: 10px;
+}
+.logo-caixa-pesquisa /*Formata espaço entre logo e caixa de pesquisa*/
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 80px 
+}
+
+.paragrafo-botao /*Formata espaço entre paragrafo e botão adicionar mesa*/
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px
+}
+
+.adicionar-Mesa
+{
+    display: flex;
+    background-color: #007aff;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    width: 175px;
+    height: 58px;
+    gap: 10px;
+    
+}
+
+.sidebar /* --- Estilos do Menu Lateral (Sidebar) --- */
+{
+    /* Define a largura do menu e impede que ele cresça ou encolha */
+    flex: 0 0 250px; 
+    
+    color: #cbd5e1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container-Main2
+{
+    display: flex;
+    justify-content: flex-start;
+    min-height: 100vh;
+    min-width: 121vh;
+    box-sizing: border-box;
+}
