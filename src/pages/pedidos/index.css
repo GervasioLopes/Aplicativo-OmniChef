@@ -6,7 +6,7 @@ body /*Formata toda area existente*/
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f2f5;
+    background-color: white;
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
@@ -20,6 +20,7 @@ body /*Formata toda area existente*/
     align-items: center;
     width: 100%;
     height: 70px;
+    border-bottom: 1px solid rgb(214, 214, 214);
 }
 
 .logo /*Formata o logo*/
@@ -101,13 +102,16 @@ body /*Formata toda area existente*/
 .sidebar /* --- Estilos do Menu Lateral (Sidebar) --- */
 {
     /* Define a largura do menu e impede que ele cresça ou encolha */
-    flex: 0 0 250px; 
     
+    width: 80px;
     color: #cbd5e1;
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease-in-out;
+    border-right: 1px solid #e0e0e0;
+    gap: 10px;
+    
 }
 
 .container-Main2
@@ -115,6 +119,37 @@ body /*Formata toda area existente*/
     display: flex;
     justify-content: flex-start;
     min-height: 100vh;
-    min-width: 121vh;
+    width: 100%;
     box-sizing: border-box;
 }
+
+.menu li
+{
+    list-style-type: none; /* Retira a marcação bolinha */
+    margin-bottom: 50px;   /* Cria espaço entre os li*/
+    
+}
+
+.menu li a {
+  /* 1. Transforma o link em um container flexível */
+  display: flex;
+
+  /* 2. Alinha os itens na vertical, um abaixo do outro */
+  flex-direction: column; 
+
+  /* 3. Centraliza os itens horizontalmente */
+  align-items: center; 
+
+  /* 4. Adiciona um pequeno espaço entre o ícone e o texto */
+  gap: 5px; 
+
+  /* Opcional: Garante que toda a área do item seja clicável */
+  padding: 10px 0;
+}
+
+a
+{
+    text-decoration: none; /* Remove o sublinhado */
+    color: black;       /* Define a cor do texto como preta */
+}
+
