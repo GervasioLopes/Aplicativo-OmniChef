@@ -65,7 +65,14 @@ body /*Formata toda area existente*/
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     min-width: 220px;
-    min-height: 150px; /* Ensure cards have a consistent height */
+    min-height: 150px; /* Define uma altura base . O elemento terá pelo menos 150 pixels de altura e poderá ser expandido, se necessário. */
+}
+.box a /*Formata a tag ancora para que a imagem fique em cima da descrição do botão.*/
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .icone /*Formata tamanho da imagem icone (Pedido, Controle, Configuração)*/
@@ -86,6 +93,12 @@ body /*Formata toda area existente*/
 {
     transform: translateY(-5px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Substitui a cor roxa de link pela cor preta e retira o sublinhado.*/ 
+a {
+  text-decoration: none;
+  color: black;
 }
 
 /* Estilos para telas de até 768px (tablets e telas menores) */
