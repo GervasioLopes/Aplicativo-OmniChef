@@ -103,7 +103,7 @@ body /*Formata toda area existente*/
 {
     /* Define a largura do menu e impede que ele cresça ou encolha */
     
-    width: 80px;
+    min-width: 120px;
     color: #cbd5e1;
     padding: 20px;
     display: flex;
