@@ -89,25 +89,54 @@
             </nav>
         </aside>
 
-        <Section class="cardapio">
+        <Section class="cardapio"> <!--Area que exibe todos os pratos inseridos na dive class items-grid-->
 
             <div class="prateleira1">
 
                 <div class="items-grid" id="items-grid">
+                <!--Exibidos aqui-->
                 </div>
                 
             </div>
 
-            <div class="prateleira2">
-
-            </div>
-
-            <div class="prateleira3">
-
-            </div>
-
         </Section>
+
     </main>
+    
+    <aside class="order-summary">
+            <div class="order-header">
+                <h2>PEDIDO #<span id="order-id">12564878</span></h2>
+                <div class="order-meta">
+                    <span><i class="fas fa-users"></i> CLIENTES: <strong>2</strong></span>
+                    <span><i class="fas fa-chair"></i> MESA: <strong>2</strong></span>
+                </div>
+            </div>
+
+            <div class="order-list" id="order-list">
+                </div>
+
+            <div class="order-footer">
+                <div class="totals">
+                    <div class="total-row">
+                        <span>SUBTOTAL</span>
+                        <span id="subtotal">R$0,00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>TAXA DE SERVIÇO: 10%</span>
+                        <span id="service-tax">R$0,00</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>TOTAL</span>
+                        <span id="total">R$0,00</span>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <button class="btn-cancel">CANCELAR PEDIDO</button>
+                    <button class="btn-submit">ENVIAR</button>
+                </div>
+            </div>
+        </aside>
+        
     <script src="./index.js"></script>
 </body>
 </html>
