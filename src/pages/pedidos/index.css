@@ -15,13 +15,17 @@ body /*Formata toda area existente*/
 .cabecalho2 /*Formata o rodape (header)*/
 {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 650px;
     flex-direction: row;
     align-items: center;
     width: 100%;
     height: 70px;
     border-bottom: 1px solid rgb(214, 214, 214);
+    margin: 0px 0px 0px 50px;
+     
 }
+
 
 .logo /*Formata o logo*/
 {
@@ -74,6 +78,7 @@ body /*Formata toda area existente*/
     flex-direction: row;
     align-items: center;
     gap: 80px 
+    
 }
 
 .paragrafo-botao /*Formata espaço entre paragrafo e botão adicionar mesa*/
@@ -82,22 +87,10 @@ body /*Formata toda area existente*/
     flex-direction: row;
     align-items: center;
     gap: 10px
-}
-
-.adicionar-Mesa
-{
-    display: flex;
-    background-color: #007aff;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    width: 175px;
-    height: 58px;
-    gap: 10px;
     
 }
+
+
 
 .sidebar /* --- Estilos do Menu Lateral (Sidebar) --- */
 {
@@ -129,11 +122,13 @@ body /*Formata toda area existente*/
 
 .cardapio
 {
-       flex: 1;
+    flex: 1;
     padding: 25px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    border-right: 1px solid #e0e0e0;
+    
 }
 
 .menu li
@@ -229,7 +224,7 @@ a
 
 .order-header {
     padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px dotted #e0e0e0;
 }
 
 .order-header h2 {
@@ -247,12 +242,16 @@ a
     flex: 1;
     padding: 20px 0;
     overflow-y: auto;
+    ;
+    
 }
 
 .order-item {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    
+    
 }
 
 .order-item img {
@@ -282,8 +281,9 @@ a
 
 .order-footer {
     margin-top: auto;
-    padding-top: 20px;
-    border-top: 2px dashed var(--border-color);
+    padding: 20px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .total-row {
@@ -292,13 +292,25 @@ a
     margin-bottom: 10px;
     font-size: 14px;
     color: var(--text-light);
+    border-bottom: 1px dotted #e0e0e0;
+}
+.total-row2
+{
+display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-light);
+    
 }
 
 .total-row.grand-total {
     font-size: 20px;
     font-weight: 700;
     color: var(--text-dark);
-    margin-top: 10px;
+    margin-top: 20px;
+    
+
 }
 
 .order-actions {
