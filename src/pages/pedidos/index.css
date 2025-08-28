@@ -1,15 +1,15 @@
 
 body /*Formata toda area existente*/
 {
+    
     font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center;
     min-height: 100vh;
     background-color: white;
     margin: 0;
-    padding: 20px;
     box-sizing: border-box;
+
 }
 
 .cabecalho2 /*Formata o rodape (header)*/
@@ -121,8 +121,11 @@ body /*Formata toda area existente*/
     min-height: 100vh;
     width: 100%;
     box-sizing: border-box;
- 
+    flex-grow: 1; /* A propriedade flex-grow garante que o main ocupe todo o espaço vertical disponível abaixo do cabeçalho */
 }
+
+ 
+
 
 .cardapio
 {
