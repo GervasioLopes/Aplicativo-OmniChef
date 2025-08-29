@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Kibe.jpg' },
         { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Onion-rings.jpg' },
         { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Pastel.jpg' },
+        { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Polenta-frita.jpg' },
+        { id: 9, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Salada-batata-ovo.jpg' },
+        { id: 9, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Caranguejo-recheado.jpg' },
     ];
+    
 
     // ---- ESTADO DO PEDIDO ATUAL ----
     let currentOrder = []; /*Uma arrays vazia que serve para guardar os itens selecionados pelo cliente ou seja, e um carrinho de compra*/ 
@@ -62,30 +66,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Função para renderizar o resumo do pedido
-    function renderOrderSummary() 
-    {
-        orderList.innerHTML = '';
-        if (currentOrder.length === 0) 
-        {
-            orderList.innerHTML = '<p style="text-align: center; color: #888;">Nenhum item no pedido.</p>';
-        } else {
-            currentOrder.forEach(item => 
-            {
-                const listItem = document.createElement('div');
-                listItem.className = 'order-item';
-                listItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}">
-                    <div class="order-item-info">
-                        <h4>${item.name}</h4>
-                        <span class="price">${formatCurrency(item.price)}</span>
-                    </div>
-                    <span class="quantity">QUANTIDADE: ${item.quantity}</span>
-                `;
-                orderList.appendChild(listItem);
-            });
-        }
-        updateTotals();
+    // Função para renderizar o resumo do pedido (VERSÃO CORRIGIDA)
+function renderOrderSummary() {
+    orderList.innerHTML = '';
+    if (currentOrder.length === 0) {
+        orderList.innerHTML = '<p style="text-align: center; color: #888;">Nenhum item no pedido.</p>';
+    } else {
+        currentOrder.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.className = 'order-item';
+            
+            // A mágica acontece aqui!
+            listItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="order-item-info">
+                    <h4>${item.name}</h4>
+                    <span class="price">${formatCurrency(item.price)}</span>
+                </div>
+               
+                <div class="quantity">
+                    <span>QUANTIDADE</span>
+                    <span class="quantity-value">${item.quantity}</span>
+                </div>
+            `;
+            orderList.appendChild(listItem);
+        });
     }
+    updateTotals();
+}
 
     // Função para atualizar os totais
     function updateTotals() 
