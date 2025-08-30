@@ -23,7 +23,7 @@ body /*Formata toda area existente*/
     height: 70px;
     border-bottom: 1px solid rgb(214, 214, 214);
     margin: 0px 0px 0px 50px;
-     
+      
 }
 
 
@@ -94,8 +94,6 @@ body /*Formata toda area existente*/
 
 .sidebar /* --- Estilos do Menu Lateral (Sidebar) --- */
 {
-    /* Define a largura do menu e impede que ele cresça ou encolha */
-    
     min-width: 120px;
     color: #cbd5e1;
     padding: 50px 20px 20px 20px;
@@ -114,11 +112,8 @@ body /*Formata toda area existente*/
     min-height: 100vh;
     width: 100%;
     box-sizing: border-box;
-    flex-grow: 1; /* A propriedade flex-grow garante que o main ocupe todo o espaço vertical disponível abaixo do cabeçalho */
+    flex-grow: 1;
 }
-
- 
-
 
 .cardapio
 {
@@ -133,47 +128,38 @@ body /*Formata toda area existente*/
 
 .menu li
 {
-    list-style-type: none; /* Retira a marcação bolinha */
-    margin-bottom: 50px;   /* Cria espaço entre os li*/
+    list-style-type: none;
+    margin-bottom: 50px;
     
 }
 
 .menu li a {
-  /* 1. Transforma o link em um container flexível */
-  display: flex;
-
-  /* 2. Alinha os itens na vertical, um abaixo do outro */
-  flex-direction: column; 
-
-  /* 3. Centraliza os itens horizontalmente */
-  align-items: center; 
-
-  /* 4. Adiciona um pequeno espaço entre o ícone e o texto */
-  gap: 5px; 
-
-  /* Opcional: Garante que toda a área do item seja clicável */
-  padding: 10px 0;
-
-  justify-content: center; /* <<< ADICIONE ESTA LINHA para centralizar na vertical (eixo principal) */
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 5px; 
+    padding: 10px 0;
+    justify-content: center;
 }
 
 /* Estilo para o item de menu ativo */
 .menu li a.ativo {
     color: white;
-    background-color: #007bff; /* Um tom de azul bonito e moderno */
+    background-color: #007bff;
     border-radius: 10px;
-    font-weight: 700; /* Opcional: deixa o texto em negrito para dar mais destaque */
+    font-weight: 700;
 }
 
-/* Opcional: muda a cor do ícone também */
+/* muda a cor do ícone também */
 .menu li a.ativo i
 {
     color: white;
 }
+
 a
 {
-    text-decoration: none; /* Remove o sublinhado */
-    color: black;       /* Define a cor do texto como preta */
+    text-decoration: none;
+    color: black;
 }
 
 
@@ -183,55 +169,96 @@ a
     gap: 20px;
 }
 
+/* --- Novo Estilo do Card de Produto --- */
+
+/* O container principal do card */
 .item-card {
-    background-color: var(--white);
+    background-color: #ffffff;
     border-radius: 12px;
     overflow: hidden;
-    text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .item-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* A imagem do produto */
 .item-card img {
     width: 100%;
     height: 120px;
     object-fit: cover;
 }
 
+/* O container do conteúdo de texto (abaixo da imagem) */
+.card-content {
+    background-color: #d7e9f6;
+    padding: 5px;
+}
+
+/* O título do prato */
 .item-card h3 {
-    font-size: 14px;
-    font-weight: 700;
-    margin: 10px 5px;
-}
-
-.item-card .price {
-    font-size: 14px;
-    color: var(--text-dark);
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.item-card .prep-time {
+    margin: 0 0 12px 0;
     font-size: 12px;
-    color: #FFA000;
-    background-color: var(--warning-yellow);
-    padding: 4px 8px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 12px;
+    font-weight: 700;
+    color: #34495E;
+    text-transform: uppercase;
+    text-align: left;
 }
+
+/* O rodapé do card, que vai alinhar preço e preparo */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* O preço do prato (ainda menor) */
+.item-card .price {
+    margin: 0;
+    font-size: 11px; /* Reduzido de 12px */
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+/* --- Estilo do Tempo de Preparo (Compacto) --- */
+
+/* O container de tempo de preparo (menor e mais compacto) */
+.item-card .prep-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* Reduzido de 8px */
+    background-color: #FEF5E7;
+   
+    border-radius: 50px;
+    padding: 4px 10px; /* Reduzido de 5px 12px */
+    color: #AF601A;
+    font-weight: bold;
+    font-size: 10px; /* Reduzido de 11px */
+}
+
+/* O container que agrupa as duas linhas de texto */
+.prep-time .prep-time-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+/* O ícone de ampulheta (menor) */
+.prep-time i {
+    font-size: 14px; /* Reduzido de 16px */
+}
+
 
 /* --- Resumo do Pedido --- */
 .order-summary {
     width: 420px;
-    background-color: var(--white);
-    border-left: 1px solid var(--border-color);
+    background-color: white;
     padding: 25px;
     display: flex;
     flex-direction: column;
@@ -252,25 +279,22 @@ a
 .order-meta {
     display: flex;
     justify-content: space-between;
-    color: var(--text-light);
+    color: #555;
 }
 
 .order-list {
     flex: 1;
     padding: 20px 0;
     overflow-y: auto;
-    ;
-    
 }
 
 .order-item {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    background-color:#eaf0f0 ;
+    background-color:#eaf0f0;
     padding: 10px;
     border-radius: 10px;
-    
 }
 
 .order-item img {
@@ -278,7 +302,6 @@ a
     height: 50px;
     border-radius: 8px;
     margin-right: 15px;
-    
 }
 
 .order-item-info {
@@ -291,9 +314,9 @@ a
 }
 
 .order-item-info .price {
-  color: var(--text-dark); /* Ou black, para garantir que fique bem visível */
-  font-size: 14px;
-  font-weight: bold;       /* <-- Adicione esta linha para negrito */
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .order-item .quantity {
@@ -312,7 +335,7 @@ a
     justify-content: space-between;
     margin-bottom: 10px;
     font-size: 14px;
-    color: var(--text-light);
+    color: #555;
     border-bottom: 1px dotted #e0e0e0;
 }
 .total-row2
@@ -321,17 +344,14 @@ a
     justify-content: space-between;
     margin-bottom: 10px;
     font-size: 14px;
-    color: var(--text-light);
-    
+    color: #555;
 }
 
 .total-row.grand-total {
     font-size: 20px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: #333;
     margin-top: 20px;
-    
-
 }
 
 .order-actions {
@@ -353,8 +373,7 @@ a
 .btn-cancel 
 {
     background-color: brown;
-    color: black;
-    
+    color: white;
 }
 
 .btn-submit {
@@ -363,28 +382,23 @@ a
     align-items: center;
     background-color: #007bfe;
     color: white;
-    
 }
 
 .quantity
 {
-    
-  /* Propriedades essenciais para o layout */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  /* Estilos opcionais */
-  width: 100px;
-  font-weight: 700; /* Deixa o texto em negrito */
-  font-size: 14px;  /* Ajuste o tamanho da fonte se precisar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    font-weight: 700;
+    font-size: 14px;
 }
 
 .quantity .quantity-value 
 {
-  font-weight: 700; /* Ou use 'bold' */
-  font-size: 1.2em; /* Opcional: aumenta um pouco o tamanho do número para dar mais destaque */
+    font-weight: 700;
+    font-size: 1.2em;
 }
 
 .version
@@ -393,8 +407,3 @@ a
     justify-content: center;
 }
 
-.prep-time
-{
-    border-radius: 15px;
-    background-color: #fae3bd;
-}

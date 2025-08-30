@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMenuItems(itemsToRender) {
         itemsGrid.innerHTML = '';
         if (itemsToRender.length === 0) {
-            itemsGrid.innerHTML = '<p style="text-align: center; color: #888; width: 100%;">Nenhum prato encontrado.</p>';
+            itemsGrid.innerHTML = '<p style="text-align: center; color: #888888ff; width: 100%;">Nenhum prato encontrado.</p>';
             return;
         }
         itemsToRender.forEach(item => {
@@ -43,10 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'item-card';
             card.innerHTML = `
                 <img src="${item.image}" alt="${item.name}">
-                <h3>${item.name}</h3>
-                <p class="price">PREÇO: ${formatCurrency(item.price)}</p>
-                <p class="prep-time"><i class="fas fa-clock"></i> Preparo ${item.prepTime} Min</p>
+                <div class="card-content">
+                    <h3>${item.name}</h3>
+                    <div class="card-footer">
+                        <p class="price">PREÇO:${formatCurrency(item.price)}</p>
+                        <div class="prep-time">
+                            <div class="prep-time-text">
+                                <span>Preparo</span>
+                                <span>${item.prepTime} Min</span>
+                            </div>
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                    </div>
+                </div>
             `;
+
             card.addEventListener('click', () => addToOrder(item));
             itemsGrid.appendChild(card);
         });
