@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="/Aplicativo_OmniChef/public/global/style.css">
+    <link rel="stylesheet" href="/Aplicativo_OmniChef/src/pages/controle_de_mesas/index.css">
+    <link href="/Aplicativo_OmniChef/public/assets/images/Icons/fontawesome/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=computer" />
+   
+    <title></title>
+</head>
+<body>
+
+    <header class="cabecalho2">
+
+        <div class="logo-caixa-pesquisa">
+            <img src="/Aplicativo_OmniChef/public/assets/images/Imagens/Logo.png" alt="Omni Chef Logo" class="logo">
+        
+        <div class="barra-pesquisa">
+            <input type="text" placeholder="Pesquisar pedidos ou produtos..." class="search-input">
+            <button class="botao-pequisa">
+                <i class="fas fa-search"></i> 
+            </button>
+        </div>
+        </div>
+        
+        <section class="dataEhora-botao">
+        <div class="data-e-hora">
+        <i class="fa-regular fa-calendar"></i>
+        <div id="dataHora"> 
+        </div> 
+        </div>
+
+        <div class="paragrafo-botao">
+            <button onclick="FUNÇÂO" class="adicionar-Mesa">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>ADD MESA</span>
+            </button>
+        </div>
+        </section>
+    </header>
+
+    <main class="container-Main2"> <!--Abrange todos os container desta pagina menos a header(cabeçalho)-->
+        <aside class="sidebar" id="sidebar"> <!-- Abrange o container menu lateral (sidebar) e seus elementos. -->
+            
+            <nav class="menu">
+                <ul>
+                    <li>
+                        <a href="Digite aqui o endereço do arquivo da pagina de destino">
+                            <i class="fa-solid fa-tv"></i>  
+                            HOME
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="Digite aqui o endereço do arquivo da pagina de destino">
+                            <i class="fa-solid fa-utensils"></i>  
+                            MENU
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="Digite aqui o endereço do arquivo da pagina de destino">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                            PEDIDOS
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="Digite aqui o endereço do arquivo da pagina de destino">
+                            <i class="fas fa-cog"></i>
+                            CONFIGURAÇÕES
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/Aplicativo_OmniChef/src/pages/home/index.html">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            SAIR
+                        </a>
+                    </li>
+
+                    <div class="version">
+                        V. 1.0
+                    </div>
+                </ul>
+            </nav>
+        </aside>
+
+    <Section class="salao">
+    <h2>CONTROLE DE SALÃO </h2>
+    <div id="salao-grid"></div>
+    </Section>
+
+  <!-- Painel de pedidos (lado direito) -->
+<aside class="container_pedidos" id="painel-pedido">
+  <div class="informacoes-mesa">
+    <h2>Selecione uma mesa</h2>
+    <p>Os pedidos e informações aparecerão aqui.</p>
+  </div>
+</aside>
+
+
+    </main>
+    <script src="./index.js"></script>
+</body>
+</html>
