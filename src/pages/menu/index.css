@@ -1,0 +1,409 @@
+
+body /*Formata toda area existente*/
+{
+    
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: white;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+.cabecalho2 /*Formata o rodape (header)*/
+{
+    display: flex;
+    justify-content: flex-start;
+    gap: 650px;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    border-bottom: 1px solid rgb(214, 214, 214);
+    margin: 0px 0px 0px 50px;
+      
+}
+
+
+.logo /*Formata o logo*/
+{
+    width: 80px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.barra-pesquisa /*Formata caixa de pesquisa*/
+{
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 15px;
+    background-color: #ddf0f5;
+    width: 350px;
+    height: 40px;
+}
+
+.search-input /*Formata caixa de pesquisa*/
+{
+    border: none;
+    background: transparent;
+    outline: none;
+    flex-grow: 1;
+    padding: 5px 0;
+    font-size: 0.95em;
+    color: #333;
+}
+
+.search-input::placeholder /*Formata o texto inicial dentro da caixa de pesquisa */
+{
+    color: #999;
+}
+
+.botao-pequisa /*Formata o botão lopa dentro da caixa de pesquisa*/
+{
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 0 5px;
+    margin-left: 10px;
+}
+.logo-caixa-pesquisa /*Formata espaço entre logo e caixa de pesquisa*/
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 80px 
+    
+}
+
+.paragrafo-botao /*Formata espaço entre paragrafo e botão adicionar mesa*/
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px
+    
+}
+
+
+
+.sidebar /* --- Estilos do Menu Lateral (Sidebar) --- */
+{
+    min-width: 120px;
+    color: #cbd5e1;
+    padding: 50px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    border-right: 1px solid #e0e0e0;
+    gap: 10px;
+    
+}
+
+.container-Main2
+{
+    display: flex;
+    justify-content: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+.cardapio
+{
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-right: 1px solid #e0e0e0;
+    
+}
+
+.menu li
+{
+    list-style-type: none;
+    margin-bottom: 50px;
+    
+}
+
+.menu li a {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 5px; 
+    padding: 10px 0;
+    justify-content: center;
+}
+
+/* Estilo para o item de menu ativo */
+.menu li a.ativo {
+    color: white;
+    background-color: #007bff;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* muda a cor do ícone também */
+.menu li a.ativo i
+{
+    color: white;
+}
+
+a
+{
+    text-decoration: none;
+    color: black;
+}
+
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+/* --- Novo Estilo do Card de Produto --- */
+
+/* O container principal do card */
+.item-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* A imagem do produto */
+.item-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* O container do conteúdo de texto (abaixo da imagem) */
+.card-content {
+    background-color: #d7e9f6;
+    padding: 5px;
+}
+
+/* O título do prato */
+.item-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #34495E;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+/* O rodapé do card, que vai alinhar preço e preparo */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* O preço do prato (ainda menor) */
+.item-card .price {
+    margin: 0;
+    font-size: 11px; /* Reduzido de 12px */
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+/* --- Estilo do Tempo de Preparo (Compacto) --- */
+
+/* O container de tempo de preparo (menor e mais compacto) */
+.item-card .prep-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* Reduzido de 8px */
+    background-color: #FEF5E7;
+   
+    border-radius: 50px;
+    padding: 4px 10px; /* Reduzido de 5px 12px */
+    color: #AF601A;
+    font-weight: bold;
+    font-size: 10px; /* Reduzido de 11px */
+}
+
+/* O container que agrupa as duas linhas de texto */
+.prep-time .prep-time-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+/* O ícone de ampulheta (menor) */
+.prep-time i {
+    font-size: 14px; /* Reduzido de 16px */
+}
+
+
+/* --- Resumo do Pedido --- */
+.order-summary {
+    width: 420px;
+    background-color: white;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-header {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #e0e0e0;
+}
+
+.order-header h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+}
+
+.order-list {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color:#eaf0f0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.order-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.order-item-info {
+    flex-grow: 1;
+}
+
+.order-item-info h4 {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.order-item-info .price {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.order-item .quantity {
+    font-weight: 700;
+}
+
+.order-footer {
+    margin-top: auto;
+    padding: 20px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px dotted #e0e0e0;
+}
+.total-row2
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.total-row.grand-total {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 20px;
+}
+
+.order-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.order-actions button {
+    flex: 1;
+    padding: 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-cancel 
+{
+    background-color: brown;
+    color: white;
+}
+
+.btn-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007bfe;
+    color: white;
+}
+
+.quantity
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.quantity .quantity-value 
+{
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.version
+{
+    display: flex;
+    justify-content: center;
+}
+
