@@ -1,4 +1,116 @@
-h1
-{
-    color: blue;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #f1f2f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px; /* espaço para telas pequenas */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.form-box {
+    background: #fff;
+    padding: 45px;
+    border-radius: 14px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    width: 480px; /* container maior */
+    max-width: 100%; /* responsivo */
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 28px;
+    color: #333;
+    font-size: 22px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 12px;
+}
+
+.input-group input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #005bb5;
+}
+
+/* Mensagem de sucesso */
+.mensagem {
+    margin-top: 15px;
+    font-size: 15px;
+    color: green;
+    font-weight: bold;
+}
+
+/* 🔹 Botão de retorno */
+.btn-retorno {
+    display: inline-block;
+    margin-top: 35px; /* Mais espaçamento do botão de cadastro */
+    padding: 12px 20px;
+    background: #ddd;
+    color: #1e90ff; /* Azul */
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-retorno:hover {
+    background: #bbb;
+    color: #005bb5; /* Azul mais forte no hover */
+}
+
+/* 🔹 Responsividade */
+@media (max-width: 600px) {
+    .form-box {
+        width: 100%;
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
 }

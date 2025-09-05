@@ -3,13 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./index.css">
     <title>Clientes</title>
 </head>
 <body>
-    <h1 id="tituloPrincipal">EM DESENVOLVIMENTO</h1>
+    <div class="container">
+        <div class="form-box">
+            <img src="../../../public/assets/images/Imagens/Logo.png" alt="Omni Chef Logo" class="logo">
+            <h2>Cadastrar Cliente</h2>
+            
+            <form id="formCliente">
+                <!-- Nome completo -->
+                <div class="input-group">
+                    <input type="text" id="nome" placeholder="Nome completo" required>
+                </div>
 
-    <button onclick="deixarTituloItalico()">Deixar Título em Negrito</button>
+                <!-- Telefone -->
+                <div class="input-group">
+                    <input type="tel" id="telefone" placeholder="Número de telefone" required>
+                </div>
+
+                <!-- CPF -->
+                <div class="input-group">
+                    <input type="text" id="cpf" placeholder="CPF" required>
+                </div>
+
+                <!-- Data de nascimento -->
+                <div class="input-group">
+                    <input type="date" id="dataNascimento" required>
+                </div>
+
+                <!-- Botão cadastrar -->
+                <button type="submit" id="btnCadastrar">Cadastrar</button>
+            </form>
+
+            <!-- Botão de retorno -->
+            <a href="../home/index.html" class="btn-retorno">← Voltar para página inicial</a>
+
+            <!-- Mensagem de sucesso -->
+            <p id="mensagem" class="mensagem"></p>
+        </div>
+    </div>
+
 
     <script src="./index.js"></script>
 </body>
