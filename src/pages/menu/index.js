@@ -1,18 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ---- DADOS DOS ITENS DO MENU ----
     const menuItems = [
-        { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg' },
-        { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg' },
-        { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg' },
-        { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg' },
-        { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg' },
-        { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg' },
-        { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg' },
-        { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg' },
-        { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg' },
-        { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg' },
-        { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg' },
+        { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' },
+        { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' },
+        { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' },
+        { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg', description: 'Cubos de tapioca com queijo coalho, acompanhados de geleia de pimenta.' },
+        { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg', description: 'Tradicionais coxinhas de frango cremosas e crocantes.' },
+        { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg', description: 'Kibes recheados com carne moída e especiarias, fritos na hora.' },
+        { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg', description: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.' },
+        { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg', description: 'Pastéis crocantes nos sabores carne, queijo e pizza.' },
+        { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' },
+        { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' },
+        { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' },
     ];
+    
     
     // ---- ESTADO DO PEDIDO ATUAL ----
     let currentOrder = [];
@@ -33,35 +34,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNÇÃO MODIFICADA ---
     function renderMenuItems(itemsToRender) {
-        itemsGrid.innerHTML = '';
-        if (itemsToRender.length === 0) {
-            itemsGrid.innerHTML = '<p style="text-align: center; color: #888888ff; width: 100%;">Nenhum prato encontrado.</p>';
-            return;
-        }
-        itemsToRender.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            card.innerHTML = `
-                <img src="${item.image}" alt="${item.name}">
-                <div class="card-content">
-                    <h3>${item.name}</h3>
-                    <div class="card-footer">
-                        <p class="price">PREÇO:${formatCurrency(item.price)}</p>
-                        <div class="prep-time">
-                            <div class="prep-time-text">
-                                <span>Preparo</span>
-                                <span>${item.prepTime} Min</span>
-                            </div>
-                            <i class="fa-solid fa-hourglass-half"></i>
+    itemsGrid.innerHTML = '';
+    // ... (o resto do código da função)
+    itemsToRender.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+            <div class="tooltip">${item.description}</div> 
+            
+            <img src="${item.image}" alt="${item.name}">
+            <div class="card-content">
+                <h3>${item.name}</h3>
+                <div class="card-footer">
+                    <p class="price">PREÇO:${formatCurrency(item.price)}</p>
+                    <div class="prep-time">
+                        <div class="prep-time-text">
+                            <span>Preparo</span>
+                            <span>${item.prepTime} Min</span>
                         </div>
+                        <i class="fa-solid fa-hourglass-half"></i>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
 
-            card.addEventListener('click', () => addToOrder(item));
-            itemsGrid.appendChild(card);
-        });
-    }
+        card.addEventListener('click', () => addToOrder(item));
+        itemsGrid.appendChild(card);
+    });
+}
+
 
     function addToOrder(itemToAdd) {
         const existingItem = currentOrder.find(item => item.id === itemToAdd.id);

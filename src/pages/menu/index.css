@@ -1,7 +1,6 @@
 
 body /*Formata toda area existente*/
 {
-    
     font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
@@ -9,7 +8,6 @@ body /*Formata toda area existente*/
     background-color: white;
     margin: 0;
     box-sizing: border-box;
-
 }
 
 .cabecalho2 /*Formata o rodape (header)*/
@@ -22,10 +20,8 @@ body /*Formata toda area existente*/
     width: 100%;
     height: 70px;
     border-bottom: 1px solid rgb(214, 214, 214);
-    margin: 0px 0px 0px 50px;
-      
+    margin: 0px 0px 0px 50px;   
 }
-
 
 .logo /*Formata o logo*/
 {
@@ -78,7 +74,6 @@ body /*Formata toda area existente*/
     flex-direction: row;
     align-items: center;
     gap: 80px 
-    
 }
 
 .paragrafo-botao /*Formata espaço entre paragrafo e botão adicionar mesa*/
@@ -86,11 +81,8 @@ body /*Formata toda area existente*/
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px
-    
+    gap: 10px 
 }
-
-
 
 .sidebar /* --- Estilos do Menu Lateral (Sidebar) --- */
 {
@@ -101,8 +93,7 @@ body /*Formata toda area existente*/
     flex-direction: column;
     transition: transform 0.3s ease-in-out;
     border-right: 1px solid #e0e0e0;
-    gap: 10px;
-    
+    gap: 10px; 
 }
 
 .container-Main2
@@ -121,16 +112,13 @@ body /*Formata toda area existente*/
     padding: 25px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    border-right: 1px solid #e0e0e0;
-    
+    border-right: 1px solid #e0e0e0; 
 }
 
 .menu li
 {
     list-style-type: none;
     margin-bottom: 50px;
-    
 }
 
 .menu li a {
@@ -162,25 +150,23 @@ a
     color: black;
 }
 
-
 .items-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
 }
 
-/* --- Novo Estilo do Card de Produto --- */
-
-/* O container principal do card */
+/* --- Estilo do Card de Produto (CORRIGIDO E UNIFICADO) --- */
 .item-card {
+    position: relative; /* Essencial para o posicionamento da janela */
     background-color: #ffffff;
     border-radius: 12px;
-    overflow: hidden;
     cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    /* A linha "overflow: hidden;" foi REMOVIDA daqui */
 }
 
 .item-card:hover {
@@ -221,39 +207,33 @@ a
 /* O preço do prato (ainda menor) */
 .item-card .price {
     margin: 0;
-    font-size: 11px; /* Reduzido de 12px */
+    font-size: 11px;
     font-weight: bold;
     color: #2C3E50;
 }
 
 /* --- Estilo do Tempo de Preparo (Compacto) --- */
-
-/* O container de tempo de preparo (menor e mais compacto) */
 .item-card .prep-time {
     display: inline-flex;
     align-items: center;
-    gap: 6px; /* Reduzido de 8px */
+    gap: 6px;
     background-color: #FEF5E7;
-   
     border-radius: 50px;
-    padding: 4px 10px; /* Reduzido de 5px 12px */
+    padding: 4px 10px;
     color: #AF601A;
     font-weight: bold;
-    font-size: 10px; /* Reduzido de 11px */
+    font-size: 10px;
 }
 
-/* O container que agrupa as duas linhas de texto */
 .prep-time .prep-time-text {
     display: flex;
     flex-direction: column;
     line-height: 1.2;
 }
 
-/* O ícone de ampulheta (menor) */
 .prep-time i {
-    font-size: 14px; /* Reduzido de 16px */
+    font-size: 14px;
 }
-
 
 /* --- Resumo do Pedido --- */
 .order-summary {
@@ -405,5 +385,44 @@ a
 {
     display: flex;
     justify-content: center;
+}
+
+/* --- Estilos da Janela Suspensa (Tooltip) --- */
+
+/* 1. Estilo da janela suspensa (tooltip) */
+.tooltip {
+    visibility: hidden; 
+    opacity: 0;        
+    position: absolute; 
+    z-index: 10;       
+    bottom: 105%;      
+    left: 50%;         
+    transform: translateX(-50%); 
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: 160px;      
+    font-size: 12px;
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+/* 2. Estilo para a setinha da janela */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; 
+}
+
+/* 3. Mostra a janela quando o mouse está sobre o card */
+.item-card:hover .tooltip {
+    visibility: visible; 
+    opacity: 1;         
 }
 
