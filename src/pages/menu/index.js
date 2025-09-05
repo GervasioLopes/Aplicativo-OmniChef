@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ---- DADOS DOS ITENS DO MENU ----
     const menuItems = [
-        { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Frango-a-passarinho.jpg' },
-        { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Batata-frita-com-chedar.jpg' },
-        { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Calabresa-acebolada.jpg' },
-        { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Dadinho-de-tapioca.jpeg' },
-        { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Coxinha.jpg' },
-        { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Kibe.jpg' },
-        { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Onion-rings.jpg' },
-        { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Pastel.jpg' },
-        { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Polenta-frita.jpg' },
-        { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Salada-batata-ovo.jpg' },
-        { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '/Aplicativo_OmniChef/public/assets/images/Imagens/Caranguejo-recheado.jpg' },
+        { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg' },
+        { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg' },
+        { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg' },
+        { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg' },
+        { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg' },
+        { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg' },
+        { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg' },
+        { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg' },
+        { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg' },
+        { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg' },
+        { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg' },
     ];
     
     // ---- ESTADO DO PEDIDO ATUAL ----
