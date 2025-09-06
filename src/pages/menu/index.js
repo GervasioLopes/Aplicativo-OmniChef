@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' },
         ],
         drinks: [
-            { id: 101, name: 'COCA-COLA LATA', price: 8.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Coca-Cola', description: 'Coca-Cola gelada 350ml.' },
-            { id: 102, name: 'SUCO DE LARANJA 500ML', price: 12.00, prepTime: 5, image: 'https://via.placeholder.com/180x120.png?text=Suco', description: 'Suco natural de laranja feito na hora.' },
-            { id: 103, name: 'CAIPIRINHA DE LIMÃO', price: 18.00, prepTime: 7, image: 'https://via.placeholder.com/180x120.png?text=Caipirinha', description: 'Tradicional caipirinha de cachaça com limão.' },
-            { id: 104, name: 'ÁGUA MINERAL', price: 5.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Água', description: 'Água mineral sem gás 500ml.' },
-            { id: 105, name: 'CERVEJA HEINEKEN', price: 14.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Cerveja', description: 'Cerveja Heineken Long Neck.' },
+            { id: 101, name: 'COCA-COLA LATA', price: 8.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Coca-cola-lata-350.jpg', description: 'Coca-Cola gelada 350ml.' },
+            { id: 102, name: 'SUCO DE LARANJA 500ML', price: 12.00, prepTime: 5, image: '../../../public/assets/images/Imagens/Suco-de-laranja-500.jpeg', description: 'Suco natural de laranja feito na hora.' },
+            { id: 103, name: 'CAIPIRINHA DE LIMÃO', price: 18.00, prepTime: 7, image: '../../../public/assets/images/Imagens/Caipinha-de-limao-350.jpg', description: 'Tradicional caipirinha de cachaça com limão.' },
+            { id: 104, name: 'ÁGUA MINERAL', price: 5.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Agua-mineral-500.png', description: 'Água mineral sem gás 500ml.' },
+            { id: 105, name: 'CERVEJA HEINEKEN', price: 14.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Cerveja-h.png', description: 'Cerveja Heineken Long Neck.' },
         ],
         sobremesas: [
             { id: 201, name: 'PUDIM DE LEITE', price: 15.00, prepTime: 2, image: 'https://via.placeholder.com/180x120.png?text=Pudim', description: 'Cremoso pudim de leite condensado com calda de caramelo.' },
