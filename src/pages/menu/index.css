@@ -211,9 +211,9 @@ a { text-decoration: none; color: black; }
     background-color: #dee2e6;
 }
 
-/* =================================
-   ESTILO DO TOOLTIP GLOBAL (SOLUÇÃO DEFINITIVA)
-   ================================= */
+/* ==========================
+   ESTILO DO TOOLTIP GLOBAL 
+   ===========================*/
 .tooltip-global {
     position: fixed;
     z-index: 1001;
