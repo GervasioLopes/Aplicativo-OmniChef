@@ -1,58 +1,30 @@
-// ARQUIVO: menu/index.js (VERSÃO COMPLETA E CORRIGIDA)
+// ARQUIVO: menu/index.js (VERSÃO FINAL 3.0 - CORRIGIDA E UNIFICADA)
+
+import { db } from '../../../public/js/firebase-config.js';
+import { doc, getDoc, collection, getDocs, addDoc, runTransaction, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // ===================================
-    // DADOS E ESTADO DO APLICATIVO
+    // DADOS LOCAIS (APENAS PARA A PRIMEIRA CARGA/SEED)
     // ===================================
-    
-    const menuData = {
-        porcoes: [
-            { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' },
-            { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' },
-            { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' },
-            { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg', description: 'Cubos de tapioca com queijo coalho, acompanhados de geleia de pimenta.' },
-            { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg', description: 'Tradicionais coxinhas de frango cremosas e crocantes.' },
-            { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg', description: 'Kibes recheados com carne moída e especiarias, fritos na hora.' },
-            { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg', description: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.' },
-            { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg', description: 'Pastéis crocantes nos sabores carne, queijo e pizza.' },
-            { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' },
-            { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' },
-            { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' },
-        ],
-        drinks: [
-            { id: 101, name: 'COCA-COLA LATA 350ML', price: 8.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Coca-cola-350.jpg', description: 'Coca-Cola gelada 350ml.' },
-            { id: 102, name: 'SUCO DE LARANJA 500ML', price: 12.00, prepTime: 5, image: '../../../public/assets/images/Imagens/Suco-de-laranja-500.jpeg', description: 'Suco natural de laranja feito na hora.' },
-            { id: 103, name: 'CAIPIRINHA DE LIMÃO', price: 18.00, prepTime: 7, image: '../../../public/assets/images/Imagens/Caipinha-de-limao-350.jpg', description: 'Tradicional caipirinha de cachaça com limão.' },
-            { id: 104, name: 'ÁGUA MINERAL', price: 5.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Agua-mineral-310.jpg', description: 'Água mineral sem gás 310ml.' },
-            { id: 105, name: 'CERVEJA HEINEKEN', price: 14.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Cerveja-h.jpg', description: 'Cerveja Heineken Long Neck.' },
-        ],
-        sobremesas: [
-            { id: 201, name: 'PUDIM DE LEITE', price: 15.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Pudim-de-leite.jpg', description: 'Cremoso pudim de leite condensado com calda de caramelo.' },
-            { id: 202, name: 'MOUSSE DE MARACUJÁ', price: 13.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Mousse-de-maracuja.jpg', description: 'Mousse aerado de maracujá com calda da fruta.' },
-            { id: 203, name: 'BOLO DE CHOCOLATE', price: 16.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Bolo-de-chocolate.jpg', description: 'Fatia de bolo de chocolate com cobertura cremosa.' },
-        ]
+    const localMenuData = {
+        porcoes: [ { name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' }, { name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' }, { name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' }, { name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg', description: 'Cubos de tapioca com queijo coalho, acompanhados de geleia de pimenta.' }, { name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg', description: 'Tradicionais coxinhas de frango cremosas e crocantes.' }, { name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg', description: 'Kibes recheados com carne moída e especiarias, fritos na hora.' }, { name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg', description: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.' }, { name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg', description: 'Pastéis crocantes nos sabores carne, queijo e pizza.' }, { name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' }, { name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' }, { name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' }, ],
+        drinks: [ { name: 'COCA-COLA LATA 350ML', price: 8.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Coca-cola-350.jpg', description: 'Coca-Cola gelada 350ml.' }, { name: 'SUCO DE LARANJA 500ML', price: 12.00, prepTime: 5, image: '../../../public/assets/images/Imagens/Suco-de-laranja-500.jpeg', description: 'Suco natural de laranja feito na hora.' }, { name: 'CAIPIRINHA DE LIMÃO', price: 18.00, prepTime: 7, image: '../../../public/assets/images/Imagens/Caipinha-de-limao-350.jpg', description: 'Tradicional caipirinha de cachaça com limão.' }, { name: 'ÁGUA MINERAL', price: 5.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Agua-mineral-310.jpg', description: 'Água mineral sem gás 310ml.' }, { name: 'CERVEJA HEINEKEN', price: 14.00, prepTime: 1, image: '../../../public/assets/images/Imagens/Cerveja-h.jpg', description: 'Cerveja Heineken Long Neck.' }, ],
+        sobremesas: [ { name: 'PUDIM DE LEITE', price: 15.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Pudim-de-leite.jpg', description: 'Cremoso pudim de leite condensado com calda de caramelo.' }, { name: 'MOUSSE DE MARACUJÁ', price: 13.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Mousse-de-maracuja.jpg', description: 'Mousse aerado de maracujá com calda da fruta.' }, { name: 'BOLO DE CHOCOLATE', price: 16.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Bolo-de-chocolate.jpg', description: 'Fatia de bolo de chocolate com cobertura cremosa.' }, ]
     };
     
+    let liveMenuData = { porcoes: [], drinks: [], sobremesas: [] };
     let activeOrder = null;
     let selectedTable = null;
 
-    // ===================================
-    // SELEÇÃO DE ELEMENTOS DO DOM
-    // ===================================
-    
+    // Seleção de Elementos do DOM
     const orderList = document.getElementById('order-list');
     const subtotalEl = document.getElementById('subtotal');
     const serviceTaxEl = document.getElementById('service-tax');
     const totalEl = document.getElementById('total');
     const cancelButton = document.querySelector('.btn-cancel');
     const submitButton = document.querySelector('.btn-submit');
-    const searchInput = document.querySelector('.search-input');
-    const searchButton = document.querySelector('.botao-pequisa');
-    const openModalBtn = document.getElementById('open-modal-btn');
-    const addDishModal = document.getElementById('add-dish-modal');
-    const cancelModalBtn = document.getElementById('cancel-modal-btn');
-    const addDishForm = document.getElementById('add-dish-form');
     const newOrderBtn = document.getElementById('new-order-btn');
     const tableSelectionModal = document.getElementById('table-selection-modal');
     const tablesGrid = document.getElementById('tables-grid');
@@ -61,26 +33,183 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableNumberEl = document.getElementById('table-number');
     const clientCountEl = document.getElementById('client-count');
     const clientNumberInput = document.getElementById('client-number-input');
+    const searchInput = document.querySelector('.search-input');
+    const searchButton = document.querySelector('.botao-pequisa');
+    const openModalBtn = document.getElementById('open-modal-btn');
+    const addDishModal = document.getElementById('add-dish-modal');
+    const cancelModalBtn = document.getElementById('cancel-modal-btn');
+    const addDishForm = document.getElementById('add-dish-form');
+
 
     // ===================================
-    // FUNÇÕES PRINCIPAIS
+    // FUNÇÕES DO CARDÁPIO (FIREBASE)
     // ===================================
-    
-    // **NOVA FUNÇÃO** para ler a configuração do total de mesas do localStorage
-    function getSaloonConfig() {
-        const config = JSON.parse(localStorage.getItem('omniChefConfig'));
-        if (!config || !config.totalTables) {
-            return { totalTables: 6 }; // Valor padrão caso não exista
+
+    async function seedMenuToFirebase() {
+        console.log("Verificando se o cardápio precisa ser populado no Firebase...");
+        const porcoesRef = collection(db, 'menuItems', 'porcoes', 'items');
+        const porcoesSnapshot = await getDocs(porcoesRef);
+
+        if (porcoesSnapshot.empty) {
+            console.log("Banco de dados de cardápio vazio. Populando agora...");
+            alert("Populando o cardápio no banco de dados pela primeira vez. Aguarde um momento.");
+            const batch = writeBatch(db);
+            Object.keys(localMenuData).forEach(category => {
+                localMenuData[category].forEach(item => {
+                    const { id, ...itemData } = item; 
+                    const newItemRef = doc(collection(db, 'menuItems', category, 'items'));
+                    batch.set(newItemRef, itemData);
+                });
+            });
+            await batch.commit();
+            console.log("Cardápio populado com sucesso!");
+        } else {
+            console.log("Cardápio já existe no Firebase.");
         }
-        return config;
+    }
+    
+    async function loadMenuFromFirebase() {
+        const categories = ['porcoes', 'drinks', 'sobremesas'];
+        liveMenuData = { porcoes: [], drinks: [], sobremesas: [] };
+        for (const category of categories) {
+            const itemsCollectionRef = collection(db, 'menuItems', category, 'items');
+            const querySnapshot = await getDocs(itemsCollectionRef);
+            querySnapshot.forEach((doc) => {
+                liveMenuData[category].push({ id: doc.id, category: category, ...doc.data() });
+            });
+        }
+        renderAllCategories();
+    }
+    
+    function renderAllCategories() {
+        Object.keys(liveMenuData).forEach(category => {
+            const targetGrid = document.getElementById(`${category}-grid`);
+            if (targetGrid) {
+                targetGrid.innerHTML = '';
+                if (liveMenuData[category].length === 0) {
+                    targetGrid.innerHTML = `<p class="empty-category-msg">Nenhum item cadastrado nesta categoria.</p>`;
+                } else {
+                    liveMenuData[category].forEach(item => renderMenuItem(item, targetGrid));
+                }
+            }
+        });
     }
 
+    addDishForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const category = document.getElementById('dish-category').value;
+        const newDish = {
+            name: document.getElementById('dish-name').value.toUpperCase(),
+            price: parseFloat(document.getElementById('dish-price').value),
+            prepTime: parseInt(document.getElementById('dish-prep-time').value),
+            image: document.getElementById('dish-image').value,
+            description: document.getElementById('dish-description').value
+        };
+        try {
+            const itemsCollectionRef = collection(db, 'menuItems', category, 'items');
+            await addDoc(itemsCollectionRef, newDish);
+            alert('Prato adicionado com sucesso!');
+            addDishForm.reset();
+            addDishModal.classList.add('hidden');
+            loadMenuFromFirebase();
+        } catch (error) {
+            console.error("Erro ao adicionar prato no Firebase:", error);
+            alert("Ocorreu um erro ao adicionar o prato.");
+        }
+    });
+
+    // ===================================
+    // FUNÇÕES DE PEDIDOS E UI
+    // ===================================
+    
+    async function populateTables() {
+        tablesGrid.innerHTML = '<p>Carregando mesas...</p>';
+        try {
+            const configDoc = await getDoc(doc(db, "saloonConfig", "main"));
+            const totalTables = configDoc.exists() ? configDoc.data().totalTables : 6;
+            const tablesSnapshot = await getDocs(collection(db, "tables"));
+            const tablesData = [];
+            tablesSnapshot.forEach(doc => {
+                tablesData.push({ id: parseInt(doc.id), ...doc.data() });
+            });
+            tablesGrid.innerHTML = '';
+            for (let i = 1; i <= totalTables; i++) {
+                const tableBtn = document.createElement('button');
+                tableBtn.className = 'table-button';
+                tableBtn.textContent = `Mesa ${i}`;
+                tableBtn.dataset.tableId = i;
+                const tableInfo = tablesData.find(t => t.id === i);
+                const status = tableInfo ? tableInfo.status : 'livre';
+                if (status !== 'livre') {
+                    tableBtn.classList.add('disabled');
+                    tableBtn.disabled = true;
+                    tableBtn.title = `Mesa ${i} está ${status === 'ocupada' ? 'Ocupada' : 'Reservada'}`;
+                }
+                tablesGrid.appendChild(tableBtn);
+            }
+        } catch (error) {
+            console.error("Erro ao carregar mesas:", error);
+            tablesGrid.innerHTML = '<p>Erro ao carregar mesas. Tente novamente.</p>';
+        }
+    }
+
+    submitButton.addEventListener('click', async () => {
+        if (!activeOrder || activeOrder.items.length === 0) {
+            alert('Não há itens no pedido para enviar.');
+            return;
+        }
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+        try {
+            const { id, ...orderContent } = activeOrder;
+            const orderData = { ...orderContent, localId: id, status: 'aFazer', timestamp: Timestamp.now() };
+            await addDoc(collection(db, "orders"), orderData);
+            const tableRef = doc(db, "tables", activeOrder.table);
+            await runTransaction(db, async (transaction) => {
+                const tableDoc = await transaction.get(tableRef);
+                if (!tableDoc.exists()) {
+                    transaction.set(tableRef, { status: 'ocupada', clients: activeOrder.clients, orders: [orderData] });
+                } else {
+                    const currentData = tableDoc.data();
+                    const newOrders = currentData.orders ? [...currentData.orders, orderData] : [orderData];
+                    transaction.update(tableRef, { status: 'ocupada', clients: activeOrder.clients, orders: newOrders });
+                }
+            });
+            alert(`Pedido #${activeOrder.id} enviado para a cozinha!`);
+            activeOrder = null;
+            orderIdEl.textContent = '--';
+            tableNumberEl.textContent = '--';
+            clientCountEl.textContent = '--';
+            renderOrderSummary();
+            document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
+            window.location.href = '../controle-mesas/index.html';
+        } catch (error) {
+            console.error("Erro ao enviar pedido:", error);
+            alert("Ocorreu um erro ao enviar o pedido.");
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar Pedido';
+        }
+    });
+
     const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
+    
+    function updateDateTime() {
+        const now = new Date();
+        const datetimeEl = document.querySelector('.paragrafo-botao p');
+        if (datetimeEl) {
+            datetimeEl.textContent = now.toLocaleString('pt-BR', {
+                day: '2-digit', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        }
+    }
 
     function renderMenuItem(item, targetGrid) {
         const card = document.createElement('div');
         card.className = 'item-card';
-        card.dataset.description = item.description; 
+        card.dataset.id = item.id;
+        card.dataset.category = item.category;
+        card.dataset.description = item.description;
         card.innerHTML = `<img src="${item.image}" alt="${item.name}"><div class="card-content"><h3>${item.name}</h3><div class="card-footer"><p class="price">PREÇO:${formatCurrency(item.price)}</p><div class="prep-time"><div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div><i class="fa-solid fa-hourglass-half"></i></div></div></div>`;
         card.addEventListener('click', () => addToOrder(item));
         targetGrid.appendChild(card);
@@ -92,8 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const existingItem = activeOrder.items.find(item => item.id === itemToAdd.id);
-        if (existingItem) { existingItem.quantity++; } 
-        else { activeOrder.items.push({ ...itemToAdd, quantity: 1 }); }
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            activeOrder.items.push({ ...itemToAdd, quantity: 1 });
+        }
         renderOrderSummary();
     }
 
@@ -105,20 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeOrder.items.forEach(item => {
                 const listItem = document.createElement('div');
                 listItem.className = 'order-item';
-                listItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}">
-                    <div class="order-item-info">
-                        <h4>${item.name}</h4>
-                        <span class="price">${formatCurrency(item.price)}</span>
-                    </div>
-                    <div class="quantity-container">
-                        <span>QUANTIDADE</span>
-                        <div class="quantity-editor">
-                            <button class="quantity-btn decrease-btn" data-id="${item.id}">-</button>
-                            <span class="quantity-value">${item.quantity}</span>
-                            <button class="quantity-btn increase-btn" data-id="${item.id}">+</button>
-                        </div>
-                    </div>`;
+                listItem.innerHTML = `<img src="${item.image}" alt="${item.name}"><div class="order-item-info"><h4>${item.name}</h4><span class="price">${formatCurrency(item.price)}</span></div><div class="quantity-container"><span>QUANTIDADE</span><div class="quantity-editor"><button class="quantity-btn decrease-btn" data-id="${item.id}">-</button><span class="quantity-value">${item.quantity}</span><button class="quantity-btn increase-btn" data-id="${item.id}">+</button></div></div>`;
                 orderList.appendChild(listItem);
             });
         }
@@ -141,61 +260,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function cancelOrder() {
-        if (!activeOrder || activeOrder.items.length === 0) {
-            alert("Não há itens no pedido para cancelar.");
-            return;
-        }
-        if (confirm("Você tem certeza que deseja cancelar o pedido e remover todos os itens?")) {
+        if (activeOrder && activeOrder.items.length > 0 && confirm("Deseja cancelar o pedido atual?")) {
             activeOrder.items = [];
             renderOrderSummary();
-            alert("Pedido cancelado com sucesso!");
         }
     }
 
     function handleSearch() {
         const searchTerm = searchInput.value.toLowerCase().trim();
-        const activeTabId = document.querySelector('.tab-button.active').dataset.target.replace('#', ''); 
-        const itemsToSearch = menuData[activeTabId];
+        const activeTabId = document.querySelector('.tab-button.active').dataset.target.replace('#', '');
+        const itemsToSearch = liveMenuData[activeTabId];
         const targetGrid = document.getElementById(`${activeTabId}-grid`);
         const filteredItems = itemsToSearch.filter(item => item.name.toLowerCase().includes(searchTerm));
         targetGrid.innerHTML = '';
         if (filteredItems.length === 0) {
             targetGrid.innerHTML = '<p style="text-align: center; color: #888; grid-column: 1 / -1;">Nenhum item encontrado.</p>';
-            return;
-        }
-        filteredItems.forEach(item => renderMenuItem(item, targetGrid));
-    }
-
-    function updateDateTime() {
-        const now = new Date();
-        const headerParagraph = document.querySelector('.paragrafo-botao p');
-        if (headerParagraph) {
-            headerParagraph.textContent = now.toLocaleString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-        }
-    }
-    
-    // **FUNÇÃO ATUALIZADA** para popular as mesas no modal
-    function populateTables() {
-        tablesGrid.innerHTML = '';
-        const config = getSaloonConfig();
-        const tablesData = JSON.parse(localStorage.getItem('omniChefTables')) || [];
-
-        for (let i = 1; i <= config.totalTables; i++) {
-            const tableBtn = document.createElement('button');
-            tableBtn.className = 'table-button';
-            tableBtn.textContent = `Mesa ${i}`;
-            tableBtn.dataset.tableId = i;
-
-            const tableInfo = tablesData.find(t => t.id === i);
-            const status = tableInfo ? tableInfo.status : 'livre';
-
-            if (status !== 'livre') {
-                tableBtn.classList.add('disabled');
-                tableBtn.disabled = true;
-                tableBtn.title = `Mesa ${i} está ${status === 'ocupada' ? 'Ocupada' : 'Reservada'}`;
-            }
-
-            tablesGrid.appendChild(tableBtn);
+        } else {
+            filteredItems.forEach(item => renderMenuItem(item, targetGrid));
         }
     }
 
@@ -205,83 +286,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     newOrderBtn.addEventListener('click', () => {
         if (activeOrder) {
-            if (!confirm('Já existe um pedido ativo. Deseja cancelar o pedido atual e iniciar um novo?')) {
-                return;
-            }
+            if (!confirm('Já existe um pedido ativo. Deseja cancelar e iniciar um novo?')) return;
         }
-        populateTables(); // Chama a nova função dinâmica
+        populateTables();
         selectedTable = null;
-        clientNumberInput.value = 1; 
+        clientNumberInput.value = 1;
         tableSelectionModal.classList.remove('hidden');
     });
 
     tablesGrid.addEventListener('click', (e) => {
         if (e.target.classList.contains('table-button') && !e.target.disabled) {
             const currentSelected = tablesGrid.querySelector('.selected');
-            if (currentSelected) { currentSelected.classList.remove('selected'); }
+            if (currentSelected) currentSelected.classList.remove('selected');
             e.target.classList.add('selected');
             selectedTable = e.target.dataset.tableId;
         }
     });
 
     startOrderBtn.addEventListener('click', () => {
-        const numberOfClients = parseInt(clientNumberInput.value, 10);
-
-        if (!selectedTable) {
-            alert('Por favor, selecione uma mesa.');
+        const clients = parseInt(clientNumberInput.value);
+        if (!selectedTable || !clients || clients < 1) {
+            alert('Por favor, selecione uma mesa e insira um número de clientes válido.');
             return;
         }
-        if (!numberOfClients || numberOfClients < 1) {
-            alert('Por favor, insira um número de clientes válido.');
-            return;
-        }
-
-        const newOrderId = Math.floor(Date.now() / 1000).toString().slice(-6);
-        activeOrder = { id: newOrderId, table: selectedTable, items: [], clients: numberOfClients };
-        
-        orderIdEl.textContent = activeOrder.id;
-        tableNumberEl.textContent = activeOrder.table;
-        clientCountEl.textContent = activeOrder.clients;
-        
+        const tempId = Date.now().toString().slice(-6);
+        activeOrder = { id: tempId, table: selectedTable, clients: clients, items: [] };
+        orderIdEl.textContent = tempId;
+        tableNumberEl.textContent = selectedTable;
+        clientCountEl.textContent = clients;
         document.querySelectorAll('.items-grid').forEach(grid => grid.classList.remove('disabled'));
         renderOrderSummary();
         tableSelectionModal.classList.add('hidden');
-    });
-
-    openModalBtn.addEventListener('click', () => addDishModal.classList.remove('hidden'));
-    cancelModalBtn.addEventListener('click', () => addDishModal.classList.add('hidden'));
-
-    addDishForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const category = document.getElementById('dish-category').value;
-        const allIds = [].concat(...Object.values(menuData)).map(i => i.id);
-        const newId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
-        const newDish = {
-            id: newId,
-            name: document.getElementById('dish-name').value.toUpperCase(),
-            price: parseFloat(document.getElementById('dish-price').value),
-            prepTime: parseInt(document.getElementById('dish-prep-time').value),
-            image: document.getElementById('dish-image').value,
-            description: document.getElementById('dish-description').value
-        };
-        menuData[category].push(newDish);
-        const targetGrid = document.getElementById(`${category}-grid`);
-        targetGrid.innerHTML = ''; 
-        menuData[category].forEach(item => renderMenuItem(item, targetGrid));
-        addDishForm.reset();
-        addDishModal.classList.add('hidden');
     });
 
     orderList.addEventListener('click', (event) => {
         if (!activeOrder) return;
         const target = event.target;
         if (target.classList.contains('increase-btn')) {
-            const itemId = parseInt(target.dataset.id);
+            const itemId = target.dataset.id;
             const itemToUpdate = activeOrder.items.find(item => item.id === itemId);
             if (itemToUpdate) { itemToUpdate.quantity++; renderOrderSummary(); }
         }
         if (target.classList.contains('decrease-btn')) {
-            const itemId = parseInt(target.dataset.id);
+            const itemId = target.dataset.id;
             const itemToUpdate = activeOrder.items.find(item => item.id === itemId);
             if (itemToUpdate) {
                 itemToUpdate.quantity--;
@@ -293,122 +340,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    function initializeApp() {
-        searchInput.value = '';
+    cancelButton.addEventListener('click', cancelOrder);
+    searchInput.addEventListener('input', handleSearch);
+    searchButton.addEventListener('click', handleSearch);
+    openModalBtn.addEventListener('click', () => addDishModal.classList.remove('hidden'));
+    cancelModalBtn.addEventListener('click', () => addDishModal.classList.add('hidden'));
+
+    // **CORRIGIDO**: Apenas UMA função initializeApp
+    async function initializeApp() {
+        // Tarefas iniciais da UI
         document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
-        Object.keys(menuData).forEach(category => {
-            const items = menuData[category];
-            const targetGrid = document.getElementById(`${category}-grid`);
-            if(targetGrid) {
-                targetGrid.innerHTML = '';
-                items.forEach(item => renderMenuItem(item, targetGrid));
-            }
-        });
         renderOrderSummary();
-        updateDateTime();
-        setInterval(updateDateTime, 60000);
-        cancelButton.addEventListener('click', cancelOrder);
-        searchInput.addEventListener('input', handleSearch);
-        searchButton.addEventListener('click', handleSearch);
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const contentPanes = document.querySelectorAll('.content-pane');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                contentPanes.forEach(pane => pane.classList.remove('active'));
-                button.classList.add('active');
-                const targetPane = document.querySelector(button.dataset.target);
-                if (targetPane) {
-                    targetPane.classList.add('active');
-                }
-            });
-        });
+    
+        // Configura o relógio para atualizar
+        updateDateTime(); // Chama o relógio a primeira vez
+        setInterval(updateDateTime, 60000); // Manda o relógio atualizar a cada 60 segundos (1 minuto)
+    
+        // Carrega os dados essenciais do Firebase
+        await seedMenuToFirebase(); // Garante que o DB não está vazio
+        await loadMenuFromFirebase(); // Carrega os dados do cardápio para a tela
     }
 
+    // Ponto de partida de toda a aplicação
     initializeApp();
-
-    // CONTROLE DO TOOLTIP GLOBAL
-    const globalTooltip = document.getElementById('global-tooltip');
-    if (globalTooltip) {
-        document.querySelector('.cardapio-content').addEventListener('mouseover', (event) => {
-            const card = event.target.closest('.item-card');
-            if (!card) return;
-            const description = card.dataset.description;
-            if (!description) return;
-            globalTooltip.textContent = description;
-            globalTooltip.classList.remove('hidden');
-            const cardRect = card.getBoundingClientRect();
-            const tooltipRect = globalTooltip.getBoundingClientRect();
-            let top = cardRect.top - tooltipRect.height - 8;
-            let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2);
-            if (left < 10) left = 10;
-            if (left + tooltipRect.width > window.innerWidth) {
-                left = window.innerWidth - tooltipRect.width - 10;
-            }
-            globalTooltip.style.top = `${top}px`;
-            globalTooltip.style.left = `${left}px`;
-        });
-        document.querySelector('.cardapio-content').addEventListener('mouseout', (event) => {
-            const card = event.target.closest('.item-card');
-            if (card) {
-                globalTooltip.classList.add('hidden');
-            }
-        });
-    }
-
-    // **LÓGICA ATUALIZADA** para enviar o pedido
-    submitButton.addEventListener('click', () => {
-        if (!activeOrder || activeOrder.items.length === 0) {
-            alert('Não há itens no pedido para enviar.');
-            return;
-        }
-
-        // --- 1. Lógica para a Cozinha (Página de Pedidos) ---
-        activeOrder.timestamp = new Date().toISOString();
-        activeOrder.status = 'aFazer';
-
-        let allKitchenOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
-        allKitchenOrders.push(activeOrder);
-        localStorage.setItem('omniChefOrders', JSON.stringify(allKitchenOrders));
-        
-        // --- 2. Lógica para o Controle de Mesas ---
-        let allTablesData = JSON.parse(localStorage.getItem('omniChefTables')) || [];
-        
-        let tableIndex = allTablesData.findIndex(table => table.id == activeOrder.table);
-
-        if (tableIndex !== -1) {
-            // Se a mesa já existe, atualiza (pode ser uma mesa reservada virando ocupada)
-            allTablesData[tableIndex].status = 'ocupada';
-            allTablesData[tableIndex].clients = activeOrder.clients;
-            // Adiciona o novo pedido à lista de pedidos da mesa
-            if (!allTablesData[tableIndex].orders) {
-                allTablesData[tableIndex].orders = [];
-            }
-            allTablesData[tableIndex].orders.push(activeOrder);
-        } else {
-            // Se é o primeiro pedido para esta mesa, cria um novo registro
-            allTablesData.push({
-                id: parseInt(activeOrder.table),
-                name: `Mesa ${activeOrder.table}`,
-                status: 'ocupada',
-                clients: activeOrder.clients,
-                orders: [activeOrder]
-            });
-        }
-
-        localStorage.setItem('omniChefTables', JSON.stringify(allTablesData));
-
-        // --- 3. Finalização e Redirecionamento ---
-        alert(`Pedido #${activeOrder.id} enviado para a cozinha e vinculado à Mesa ${activeOrder.table}!`);
-        
-        activeOrder = null;
-        orderIdEl.textContent = '--';
-        tableNumberEl.textContent = '--';
-        clientCountEl.textContent = '--';
-        renderOrderSummary();
-        document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
-
-        window.location.href = '../controle-mesas/index.html'; // Ajuste o caminho se for diferente
-    });
-
 });

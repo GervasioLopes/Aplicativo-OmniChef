@@ -1,33 +1,61 @@
+// ARQUIVO: pedidos/index.js (VERSÃO COMPLETA E FINAL COM FIREBASE)
+
+// Importa o 'db' e as funções necessárias do Firestore
+import { db } from '../../../public/js/firebase-config.js';
+import { collection, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Seleciona os containers das colunas e o painel principal
+    // Seleciona os containers das colunas
     const contAFazer = document.getElementById('container-aFazer');
     const contEmPreparo = document.getElementById('container-emPreparo');
     const contPronto = document.getElementById('container-pronto');
-    const pedidosBoard = document.querySelector('.pedidos-board'); // Seleciona o pai de todas as colunas
+    const pedidosBoard = document.querySelector('.pedidos-board');
 
-    // Mapeia o status do pedido para o container correspondente
     const statusMap = {
         'aFazer': contAFazer,
         'emPreparo': contEmPreparo,
         'pronto': contPronto
     };
 
-    // Função para criar o HTML de um card de pedido
+    // --- LISTENER EM TEMPO REAL PARA A COLEÇÃO DE PEDIDOS ---
+    // Cria uma query para ordenar os pedidos do mais antigo para o mais novo
+    const q = query(collection(db, "orders"), orderBy("timestamp", "asc"));
+
+    onSnapshot(q, (querySnapshot) => {
+        // Limpa todas as colunas antes de redesenhar
+        Object.values(statusMap).forEach(container => container.innerHTML = '');
+        
+        if (querySnapshot.empty) {
+            contAFazer.innerHTML = '<p style="text-align:center; color:#6c757d; margin-top:20px;">Nenhum pedido no momento.</p>';
+            return;
+        }
+
+        querySnapshot.forEach((doc) => {
+
+            const order = { ...doc.data(), id: doc.id }; 
+            const cardElement = createOrderCard(order);
+            const targetContainer = statusMap[order.status];
+            if (targetContainer) {
+                targetContainer.appendChild(cardElement);
+            }
+        });
+    });
+
+    // Função para criar o HTML de um card de pedido (com ajuste para o timestamp do Firebase)
     function createOrderCard(order) {
         const card = document.createElement('div');
         card.className = 'order-card';
-        card.id = `order-${order.id}`;
-        card.dataset.id = order.id; // Adiciona o ID do pedido ao elemento para fácil acesso
+        card.dataset.id = order.id; // Usa o ID real do Firestore
 
         const itemsList = order.items.map(item => 
             `<li><span>${item.quantity}x ${item.name}</span> <span>${formatCurrency(item.price * item.quantity)}</span></li>`
         ).join('');
         
-        const orderTime = new Date(order.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        // Converte o timestamp do Firebase para um objeto Date do JavaScript
+        const orderTime = order.timestamp.toDate().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
         let actionButtonHTML = '';
-        // Define o botão com base no status do pedido
         if (order.status === 'aFazer') {
             actionButtonHTML = '<button class="action-btn" data-action="start">Iniciar Preparo</button>';
         } else if (order.status === 'emPreparo') {
@@ -38,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.innerHTML = `
             <div class="card-header">
-                <span>Pedido #${order.id}</span>
-                <span>Mesa ${order.table} - ${order.clients} Clientes</span>
+                <span>Pedido #${order.id.substring(0, 6)}</span> <span>Mesa ${order.table} - ${order.clients} Clientes</span>
             </div>
             <div class="card-body"><ul>${itemsList}</ul></div>
             <div class="card-footer">
@@ -49,69 +76,39 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
-    // Função para carregar e exibir todos os pedidos do localStorage
-    function loadOrders() {
-        Object.values(statusMap).forEach(container => container.innerHTML = '');
-
-        const allOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
-        
-        if (allOrders.length === 0) {
-            contAFazer.innerHTML = '<p style="text-align:center; color:#6c757d; margin-top:20px;">Nenhum pedido no momento.</p>';
-        }
-
-        allOrders.forEach(order => {
-            const cardElement = createOrderCard(order);
-            const targetContainer = statusMap[order.status];
-            if (targetContainer) {
-                targetContainer.appendChild(cardElement);
-            }
-        });
-    }
-
-    // Função para atualizar o status de um pedido
-    function updateOrderStatus(orderId, newStatus) {
-        let allOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
-        const orderIndex = allOrders.findIndex(order => order.id == orderId);
-
-        if (orderIndex !== -1) {
-            // Se o novo status é 'finalizado', removemos o pedido. Caso contrário, atualizamos.
-            if (newStatus === 'finished') {
-                allOrders.splice(orderIndex, 1);
-            } else {
-                allOrders[orderIndex].status = newStatus;
-            }
-            localStorage.setItem('omniChefOrders', JSON.stringify(allOrders));
-            loadOrders(); // Recarrega a interface para refletir a mudança
-        }
-    }
-
-    // Formata um número para a moeda brasileira
-    const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
-    
-    // Adiciona o "escutador" de eventos no painel principal
-    pedidosBoard.addEventListener('click', (event) => {
+    // --- AÇÕES QUE MODIFICAM OS DADOS NO FIREBASE ---
+    pedidosBoard.addEventListener('click', async (event) => {
         const target = event.target;
 
-        // Verifica se o elemento clicado é um botão de ação
         if (target.matches('.action-btn')) {
             const action = target.dataset.action;
             const card = target.closest('.order-card');
             const orderId = card.dataset.id;
-            
-            if (action === 'start') {
-                updateOrderStatus(orderId, 'emPreparo');
-            } else if (action === 'ready') {
-                updateOrderStatus(orderId, 'pronto');
-            } else if (action === 'finish') {
-                // Confirmação antes de remover o pedido
-                if (confirm(`Tem certeza que deseja finalizar o Pedido #${orderId}?`)) {
-                    updateOrderStatus(orderId, 'finished');
+            const orderRef = doc(db, "orders", orderId);
+
+            try {
+                if (action === 'start') {
+                    // Atualiza o status do pedido para 'emPreparo' no Firebase
+                    await updateDoc(orderRef, { status: 'emPreparo' });
+                } else if (action === 'ready') {
+                    // Atualiza o status do pedido para 'pronto' no Firebase
+                    await updateDoc(orderRef, { status: 'pronto' });
+                } else if (action === 'finish') {
+                    if (confirm(`Tem certeza que deseja finalizar este pedido?`)) {
+                        // Deleta o documento do pedido do Firebase
+                        await deleteDoc(orderRef);
+                    }
                 }
+            } catch (error) {
+                console.error("Erro ao atualizar o status do pedido:", error);
+                alert("Não foi possível atualizar o pedido. Tente novamente.");
             }
         }
     });
 
-    // Função para atualizar data e hora no cabeçalho
+    // Funções de ajuda
+    const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
+
     function updateDateTime() {
         const now = new Date();
         const datetimeEl = document.getElementById('datetime');
@@ -119,9 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             datetimeEl.textContent = now.toLocaleString('pt-BR', { dateStyle: 'long', timeStyle: 'short' });
         }
     }
-
-    // Funções iniciais ao carregar a página
-    loadOrders();
     updateDateTime();
-    setInterval(updateDateTime, 1000); // Atualiza o relógio a cada segundo
+    setInterval(updateDateTime, 1000);
 });
