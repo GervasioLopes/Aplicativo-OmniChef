@@ -1,11 +1,12 @@
-// Aguarda o HTML ser completamente carregado para então executar o script
 document.addEventListener('DOMContentLoaded', () => {
     
     // ===================================
     // DADOS E ESTADO DO APLICATIVO
     // ===================================
     
-    const menuItems = [
+    const menuData = {
+    porcoes: [
+        // TODOS OS SEUS PRATOS ORIGINAIS ESTÃO AQUI AGORA
         { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' },
         { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' },
         { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' },
@@ -17,7 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' },
         { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' },
         { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' },
-    ];
+    ],
+        drinks: [
+            { id: 101, name: 'COCA-COLA LATA', price: 8.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Coca-Cola', description: 'Coca-Cola gelada 350ml.' },
+            { id: 102, name: 'SUCO DE LARANJA 500ML', price: 12.00, prepTime: 5, image: 'https://via.placeholder.com/180x120.png?text=Suco', description: 'Suco natural de laranja feito na hora.' },
+            { id: 103, name: 'CAIPIRINHA DE LIMÃO', price: 18.00, prepTime: 7, image: 'https://via.placeholder.com/180x120.png?text=Caipirinha', description: 'Tradicional caipirinha de cachaça com limão.' },
+            { id: 104, name: 'ÁGUA MINERAL', price: 5.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Água', description: 'Água mineral sem gás 500ml.' },
+            { id: 105, name: 'CERVEJA HEINEKEN', price: 14.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Cerveja', description: 'Cerveja Heineken Long Neck.' },
+        ],
+        sobremesas: [
+            { id: 201, name: 'PUDIM DE LEITE', price: 15.00, prepTime: 2, image: 'https://via.placeholder.com/180x120.png?text=Pudim', description: 'Cremoso pudim de leite condensado com calda de caramelo.' },
+            { id: 202, name: 'MOUSSE DE MARACUJÁ', price: 13.00, prepTime: 2, image: 'https://via.placeholder.com/180x120.png?text=Mousse', description: 'Mousse aerado de maracujá com calda da fruta.' },
+            { id: 203, name: 'BOLO DE CHOCOLATE', price: 16.00, prepTime: 2, image: 'https://via.placeholder.com/180x120.png?text=Bolo', description: 'Fatia de bolo de chocolate com cobertura cremosa.' },
+        ]
+    };
     
     let activeOrder = null;
     let selectedTable = null;
@@ -25,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // SELEÇÃO DE ELEMENTOS DO DOM
     // ===================================
-    const itemsGridContainer = document.getElementById('items-grid');
+    
     const orderList = document.getElementById('order-list');
     const subtotalEl = document.getElementById('subtotal');
     const serviceTaxEl = document.getElementById('service-tax');
@@ -50,20 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
 
-    function renderMenuItems(itemsToRender) {
-        itemsGridContainer.innerHTML = '';
-        if (!itemsToRender || itemsToRender.length === 0) {
-            itemsGridContainer.innerHTML = '<p style="text-align: center; color: #888; width: 100%;">Nenhum prato encontrado.</p>';
-            return;
-        }
-        itemsToRender.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            card.innerHTML = `<div class="tooltip">${item.description}</div><img src="${item.image}" alt="${item.name}"><div class="card-content"><h3>${item.name}</h3><div class="card-footer"><p class="price">PREÇO:${formatCurrency(item.price)}</p><div class="prep-time"><div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div><i class="fa-solid fa-hourglass-half"></i></div></div></div>`;
-            card.addEventListener('click', () => addToOrder(item));
-            itemsGridContainer.appendChild(card);
-        });
-    }
+    function renderMenuItem(item, targetGrid) {
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    // Adicionamos o 'data-description' com a descrição do prato
+    card.dataset.description = item.description; 
+    // Removemos o <div class="tooltip">...</div> do innerHTML
+    card.innerHTML = `<img src="${item.image}" alt="${item.name}"><div class="card-content"><h3>${item.name}</h3><div class="card-footer"><p class="price">PREÇO:${formatCurrency(item.price)}</p><div class="prep-time"><div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div><i class="fa-solid fa-hourglass-half"></i></div></div></div>`;
+    card.addEventListener('click', () => addToOrder(item));
+    targetGrid.appendChild(card);
+}
 
     function addToOrder(itemToAdd) {
         if (!activeOrder) {
@@ -76,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderOrderSummary();
     }
 
-    /** Renderiza a lista de itens no resumo do pedido, agora com o texto "QUANTIDADE" restaurado. */
     function renderOrderSummary() {
         orderList.innerHTML = '';
         if (!activeOrder || activeOrder.items.length === 0) {
@@ -85,9 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
             activeOrder.items.forEach(item => {
                 const listItem = document.createElement('div');
                 listItem.className = 'order-item';
-                // =========================================================================
-                // CORREÇÃO: Bloco de Quantidade atualizado para incluir o texto "QUANTIDADE"
-                // =========================================================================
                 listItem.innerHTML = `
                     <img src="${item.image}" alt="${item.name}">
                     <div class="order-item-info">
@@ -137,8 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleSearch() {
         const searchTerm = searchInput.value.toLowerCase().trim();
-        const filteredItems = menuItems.filter(item => item.name.toLowerCase().includes(searchTerm));
-        renderMenuItems(filteredItems);
+        const activeTabId = document.querySelector('.tab-button.active').dataset.target.replace('#', ''); 
+        const itemsToSearch = menuData[activeTabId];
+        const targetGrid = document.getElementById(`${activeTabId}-grid`);
+
+        const filteredItems = itemsToSearch.filter(item => item.name.toLowerCase().includes(searchTerm));
+        
+        targetGrid.innerHTML = '';
+        if (filteredItems.length === 0) {
+            targetGrid.innerHTML = '<p style="text-align: center; color: #888; grid-column: 1 / -1;">Nenhum item encontrado.</p>';
+            return;
+        }
+        filteredItems.forEach(item => renderMenuItem(item, targetGrid));
     }
 
     function updateDateTime() {
@@ -194,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         orderIdEl.textContent = activeOrder.id;
         tableNumberEl.textContent = activeOrder.table;
-        itemsGridContainer.classList.remove('disabled');
+        document.querySelectorAll('.items-grid').forEach(grid => grid.classList.remove('disabled'));
         renderOrderSummary();
         tableSelectionModal.classList.add('hidden');
     });
@@ -204,16 +220,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addDishForm.addEventListener('submit', (event) => {
         event.preventDefault();
+        const category = document.getElementById('dish-category').value;
+        
+        const allIds = [].concat(...Object.values(menuData)).map(i => i.id);
+        const newId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
+
         const newDish = {
-            id: menuItems.length > 0 ? Math.max(...menuItems.map(item => item.id)) + 1 : 1,
+            id: newId,
             name: document.getElementById('dish-name').value.toUpperCase(),
             price: parseFloat(document.getElementById('dish-price').value),
             prepTime: parseInt(document.getElementById('dish-prep-time').value),
             image: document.getElementById('dish-image').value,
             description: document.getElementById('dish-description').value
         };
-        menuItems.push(newDish);
-        renderMenuItems(menuItems);
+
+        menuData[category].push(newDish);
+
+        const targetGrid = document.getElementById(`${category}-grid`);
+        targetGrid.innerHTML = ''; 
+        menuData[category].forEach(item => renderMenuItem(item, targetGrid));
+        
         addDishForm.reset();
         addDishModal.classList.add('hidden');
     });
@@ -241,8 +267,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function initializeApp() {
         searchInput.value = '';
-        itemsGridContainer.classList.add('disabled');
-        renderMenuItems(menuItems);
+        document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
+
+        Object.keys(menuData).forEach(category => {
+            const items = menuData[category];
+            const targetGrid = document.getElementById(`${category}-grid`);
+            if(targetGrid) {
+                targetGrid.innerHTML = '';
+                items.forEach(item => renderMenuItem(item, targetGrid));
+            }
+        });
+        
         renderOrderSummary();
         updateDateTime();
         setInterval(updateDateTime, 60000);
@@ -250,7 +285,69 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelButton.addEventListener('click', cancelOrder);
         searchInput.addEventListener('input', handleSearch);
         searchButton.addEventListener('click', handleSearch);
+
+        // Lógica de controle das abas
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const contentPanes = document.querySelectorAll('.content-pane');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                contentPanes.forEach(pane => pane.classList.remove('active'));
+                button.classList.add('active');
+                const targetPane = document.querySelector(button.dataset.target);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
     }
 
     initializeApp();
-});
+    // ... todo o seu código anterior ...
+    initializeApp();
+
+    // ==========================================================
+    // CONTROLE DO TOOLTIP GLOBAL (SOLUÇÃO DEFINITIVA)
+    // ==========================================================
+    const globalTooltip = document.getElementById('global-tooltip');
+
+    // Usamos delegação de eventos para eficiência
+    document.querySelector('.cardapio-content').addEventListener('mouseover', (event) => {
+        const card = event.target.closest('.item-card');
+        if (!card) return; // Se o mouse não estiver sobre um card, não faz nada
+
+        // Pega a descrição do atributo de dados do card
+        const description = card.dataset.description;
+        if (!description) return;
+
+        // Atualiza o conteúdo do tooltip
+        globalTooltip.textContent = description;
+        globalTooltip.classList.remove('hidden');
+
+        // Calcula a posição do tooltip
+        const cardRect = card.getBoundingClientRect();
+        const tooltipRect = globalTooltip.getBoundingClientRect();
+
+        // Posiciona o tooltip acima e centralizado em relação ao card
+        let top = cardRect.top - tooltipRect.height - 8; // 8px de espaço
+        let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2);
+        
+        // Garante que o tooltip não saia pela esquerda ou direita da tela
+        if (left < 10) left = 10; // 10px de margem
+        if (left + tooltipRect.width > window.innerWidth) {
+            left = window.innerWidth - tooltipRect.width - 10;
+        }
+
+        globalTooltip.style.top = `${top}px`;
+        globalTooltip.style.left = `${left}px`;
+    });
+
+    document.querySelector('.cardapio-content').addEventListener('mouseout', (event) => {
+        const card = event.target.closest('.item-card');
+        if (card) {
+            // Esconde o tooltip ao tirar o mouse do card
+            globalTooltip.classList.add('hidden');
+        }
+    });
+
+}); // Fim do 'DOMContentLoaded'

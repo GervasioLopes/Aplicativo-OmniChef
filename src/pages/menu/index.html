@@ -56,24 +56,39 @@
                     <i class="fas fa-plus"></i> Adicionar Prato
                 </button>
             </div>
-            
-            <div class="prateleira1">
-                <div class="items-grid" id="items-grid">
-                    </div>
+        
+            <div class="cardapio-content">
+                <div id="porcoes" class="content-pane active">
+                    <div class="items-grid" id="porcoes-grid">
+                        </div>
+                </div>
+                <div id="drinks" class="content-pane">
+                    <div class="items-grid" id="drinks-grid">
+                        </div>
+                </div>
+                <div id="sobremesas" class="content-pane">
+                    <div class="items-grid" id="sobremesas-grid">
+                        </div>
+                </div>
             </div>
+            
+            <nav class="menu-tabs">
+                <button class="tab-button active" data-target="#porcoes">PORÇÕES</button>
+                <button class="tab-button" data-target="#drinks">DRINKS</button>
+                <button class="tab-button" data-target="#sobremesas">SOBREMESAS</button>
+            </nav>
         </section>
 
         <aside class="order-summary">
             <div class="order-header">
                 <h2>PEDIDO #<span id="order-id">--</span></h2>
                 <div class="order-meta">
-                    <span><i class="fas fa-users"></i> CLIENTES: <strong>2</strong></span>
                     <span><i class="fas fa-chair"></i> MESA: <strong id="table-number">--</strong></span>
                 </div>
             </div>
 
             <div class="order-list" id="order-list">
-                </div>
+            </div>
 
             <div class="order-footer">
                 <div class="totals">
@@ -105,6 +120,14 @@
                     <div class="form-group"><label for="dish-price">Preço (ex: 25.50)</label><input type="number" id="dish-price" step="0.01" required></div>
                     <div class="form-group"><label for="dish-prep-time">Tempo de Preparo (minutos)</label><input type="number" id="dish-prep-time" required></div>
                     <div class="form-group"><label for="dish-image">URL da Imagem</label><input type="text" id="dish-image" placeholder="https://exemplo.com/imagem.jpg" required></div>
+                    <div class="form-group">
+                        <label for="dish-category">Categoria</label>
+                        <select id="dish-category" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background-color: white;">
+                            <option value="porcoes">Porção</option>
+                            <option value="drinks">Drink</option>
+                            <option value="sobremesas">Sobremesa</option>
+                        </select>
+                    </div>
                     <div class="form-group"><label for="dish-description">Descrição</label><textarea id="dish-description" rows="3" required></textarea></div>
                     <div class="form-actions">
                         <button type="button" class="btn-cancel-modal" id="cancel-modal-btn">Cancelar</button>
@@ -118,7 +141,7 @@
             <div class="modal-content">
                 <h2>Selecione a Mesa</h2>
                 <div class="tables-grid" id="tables-grid">
-                    </div>
+                </div>
                 <div class="form-actions">
                     <button type="button" class="btn-submit-modal" id="start-order-btn">Iniciar Pedido</button>
                 </div>
@@ -128,5 +151,6 @@
     </main>
     
     <script src="./index.js"></script>
+    <div id="global-tooltip" class="tooltip-global hidden"></div>
 </body>
 </html>
