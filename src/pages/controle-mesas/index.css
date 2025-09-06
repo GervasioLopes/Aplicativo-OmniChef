@@ -308,3 +308,65 @@ box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 .lista-pedidos li span {
   font-weight: bold;
 }
+
+/* Adicione este estilo ao final do seu CSS */
+
+.mesa-btn.reservada {
+  opacity: 0.8;
+  background-color: #9b59b6; /* Um roxo para diferenciar */
+}
+
+.informacoes-mesa .status-reservada {
+    color: #9b59b6; /* Roxo para o texto */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Botão para reservar/cancelar reserva */
+.btn-reservar, .btn-cancelar-reserva {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-reservar {
+    background-color: #e67e22; /* Laranja */
+}
+.btn-reservar:hover {
+    background-color: #d35400;
+}
+
+.btn-cancelar-reserva {
+    background-color: #c0392b; /* Vermelho mais escuro */
+}
+.btn-cancelar-reserva:hover {
+    background-color: #a93226;
+}
+
+/* Adicione este estilo ao final do seu CSS */
+
+.remover-Mesa {
+    display: flex;
+    background-color: #dc3545; /* Vermelho para perigo/remoção */
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    width: 175px;
+    height: 58px;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.remover-Mesa:hover {
+  background: #c82333;
+}

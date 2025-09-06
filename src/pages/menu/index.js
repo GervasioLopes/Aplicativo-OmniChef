@@ -1,4 +1,4 @@
-// Arquivo: Aplicativo_OmniChef\src-pages\menu\index.js (VERSÃO FINAL CORRIGIDA)
+// ARQUIVO: menu/index.js (VERSÃO COMPLETA E CORRIGIDA)
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -65,6 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // FUNÇÕES PRINCIPAIS
     // ===================================
+    
+    // **NOVA FUNÇÃO** para ler a configuração do total de mesas do localStorage
+    function getSaloonConfig() {
+        const config = JSON.parse(localStorage.getItem('omniChefConfig'));
+        if (!config || !config.totalTables) {
+            return { totalTables: 6 }; // Valor padrão caso não exista
+        }
+        return config;
+    }
 
     const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
 
@@ -165,13 +174,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    // **FUNÇÃO ATUALIZADA** para popular as mesas no modal
     function populateTables() {
         tablesGrid.innerHTML = '';
-        for (let i = 1; i <= 6; i++) {
+        const config = getSaloonConfig();
+        const tablesData = JSON.parse(localStorage.getItem('omniChefTables')) || [];
+
+        for (let i = 1; i <= config.totalTables; i++) {
             const tableBtn = document.createElement('button');
             tableBtn.className = 'table-button';
             tableBtn.textContent = `Mesa ${i}`;
             tableBtn.dataset.tableId = i;
+
+            const tableInfo = tablesData.find(t => t.id === i);
+            const status = tableInfo ? tableInfo.status : 'livre';
+
+            if (status !== 'livre') {
+                tableBtn.classList.add('disabled');
+                tableBtn.disabled = true;
+                tableBtn.title = `Mesa ${i} está ${status === 'ocupada' ? 'Ocupada' : 'Reservada'}`;
+            }
+
             tablesGrid.appendChild(tableBtn);
         }
     }
@@ -186,14 +209,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
         }
-        populateTables();
+        populateTables(); // Chama a nova função dinâmica
         selectedTable = null;
         clientNumberInput.value = 1; 
         tableSelectionModal.classList.remove('hidden');
     });
 
     tablesGrid.addEventListener('click', (e) => {
-        if (e.target.classList.contains('table-button')) {
+        if (e.target.classList.contains('table-button') && !e.target.disabled) {
             const currentSelected = tablesGrid.querySelector('.selected');
             if (currentSelected) { currentSelected.classList.remove('selected'); }
             e.target.classList.add('selected');
@@ -333,9 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =========================================================
-    //  NOVA LÓGICA PARA ENVIAR O PEDIDO (Substitua a sua)
-    // =========================================================
+    // **LÓGICA ATUALIZADA** para enviar o pedido
     submitButton.addEventListener('click', () => {
         if (!activeOrder || activeOrder.items.length === 0) {
             alert('Não há itens no pedido para enviar.');
@@ -349,26 +370,29 @@ document.addEventListener('DOMContentLoaded', () => {
         let allKitchenOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
         allKitchenOrders.push(activeOrder);
         localStorage.setItem('omniChefOrders', JSON.stringify(allKitchenOrders));
-    
+        
         // --- 2. Lógica para o Controle de Mesas ---
         let allTablesData = JSON.parse(localStorage.getItem('omniChefTables')) || [];
-    
-        // Procura se a mesa já tem dados salvos
+        
         let tableIndex = allTablesData.findIndex(table => table.id == activeOrder.table);
 
         if (tableIndex !== -1) {
-            // Se a mesa já existe (ex: adicionando mais itens), atualiza
+            // Se a mesa já existe, atualiza (pode ser uma mesa reservada virando ocupada)
+            allTablesData[tableIndex].status = 'ocupada';
+            allTablesData[tableIndex].clients = activeOrder.clients;
+            // Adiciona o novo pedido à lista de pedidos da mesa
+            if (!allTablesData[tableIndex].orders) {
+                allTablesData[tableIndex].orders = [];
+            }
             allTablesData[tableIndex].orders.push(activeOrder);
-            // Pode-se decidir se o número de clientes deve ser atualizado ou mantido
-            allTablesData[tableIndex].clients = activeOrder.clients; 
         } else {
             // Se é o primeiro pedido para esta mesa, cria um novo registro
             allTablesData.push({
                 id: parseInt(activeOrder.table),
-                name: `Mesa ${activeOrder.table}`, // Adicionando o nome para consistência
+                name: `Mesa ${activeOrder.table}`,
                 status: 'ocupada',
                 clients: activeOrder.clients,
-                orders: [activeOrder] // O pedido atual se torna o primeiro em uma lista
+                orders: [activeOrder]
             });
         }
 
@@ -376,8 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- 3. Finalização e Redirecionamento ---
         alert(`Pedido #${activeOrder.id} enviado para a cozinha e vinculado à Mesa ${activeOrder.table}!`);
-    
-        // Reseta o pedido ativo na página de menu
+        
         activeOrder = null;
         orderIdEl.textContent = '--';
         tableNumberEl.textContent = '--';
@@ -385,8 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderOrderSummary();
         document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
 
-        // Redireciona para a página de controle de mesas para ver o resultado
-        window.location.href = '../controle-mesas/index.html'; // Ajuste o caminho se necessário
+        window.location.href = '../controle-mesas/index.html'; // Ajuste o caminho se for diferente
     });
 
 });
