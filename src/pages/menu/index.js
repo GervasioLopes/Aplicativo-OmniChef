@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
         sobremesas: [
             { id: 201, name: 'PUDIM DE LEITE', price: 15.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Pudim-de-leite.jpg', description: 'Cremoso pudim de leite condensado com calda de caramelo.' },
-            { id: 202, name: 'MOUSSE DE MARACUJÁ', price: 13.00, prepTime: 2, image: 'https://via.placeholder.com/180x120.png?text=Mousse', description: 'Mousse aerado de maracujá com calda da fruta.' },
-            { id: 203, name: 'BOLO DE CHOCOLATE', price: 16.00, prepTime: 2, image: 'https://via.placeholder.com/180x120.png?text=Bolo', description: 'Fatia de bolo de chocolate com cobertura cremosa.' },
+            { id: 202, name: 'MOUSSE DE MARACUJÁ', price: 13.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Mousse-de-maracuja.jpg', description: 'Mousse aerado de maracujá com calda da fruta.' },
+            { id: 203, name: 'BOLO DE CHOCOLATE', price: 16.00, prepTime: 2, image: '../../../public/assets/images/Imagens/Bolo-de-chocolate.jpg', description: 'Fatia de bolo de chocolate com cobertura cremosa.' },
         ]
     };
     
