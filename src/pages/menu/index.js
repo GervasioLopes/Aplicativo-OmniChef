@@ -333,31 +333,60 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // LÓGICA PARA ENVIAR O PEDIDO
+    // =========================================================
+    //  NOVA LÓGICA PARA ENVIAR O PEDIDO (Substitua a sua)
+    // =========================================================
     submitButton.addEventListener('click', () => {
         if (!activeOrder || activeOrder.items.length === 0) {
             alert('Não há itens no pedido para enviar.');
             return;
         }
 
+        // --- 1. Lógica para a Cozinha (Página de Pedidos) ---
         activeOrder.timestamp = new Date().toISOString();
         activeOrder.status = 'aFazer';
 
-        let allOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
-        allOrders.push(activeOrder);
-        localStorage.setItem('omniChefOrders', JSON.stringify(allOrders));
+        let allKitchenOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
+        allKitchenOrders.push(activeOrder);
+        localStorage.setItem('omniChefOrders', JSON.stringify(allKitchenOrders));
+    
+        // --- 2. Lógica para o Controle de Mesas ---
+        let allTablesData = JSON.parse(localStorage.getItem('omniChefTables')) || [];
+    
+        // Procura se a mesa já tem dados salvos
+        let tableIndex = allTablesData.findIndex(table => table.id == activeOrder.table);
 
-        alert(`Pedido #${activeOrder.id} enviado para a cozinha!`);
-        
+        if (tableIndex !== -1) {
+            // Se a mesa já existe (ex: adicionando mais itens), atualiza
+            allTablesData[tableIndex].orders.push(activeOrder);
+            // Pode-se decidir se o número de clientes deve ser atualizado ou mantido
+            allTablesData[tableIndex].clients = activeOrder.clients; 
+        } else {
+            // Se é o primeiro pedido para esta mesa, cria um novo registro
+            allTablesData.push({
+                id: parseInt(activeOrder.table),
+                name: `Mesa ${activeOrder.table}`, // Adicionando o nome para consistência
+                status: 'ocupada',
+                clients: activeOrder.clients,
+                orders: [activeOrder] // O pedido atual se torna o primeiro em uma lista
+            });
+        }
+
+        localStorage.setItem('omniChefTables', JSON.stringify(allTablesData));
+
+        // --- 3. Finalização e Redirecionamento ---
+        alert(`Pedido #${activeOrder.id} enviado para a cozinha e vinculado à Mesa ${activeOrder.table}!`);
+    
+        // Reseta o pedido ativo na página de menu
         activeOrder = null;
-        
         orderIdEl.textContent = '--';
         tableNumberEl.textContent = '--';
         clientCountEl.textContent = '--';
         renderOrderSummary();
         document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
 
-        window.location.href = '../pedidos/index.html';
+        // Redireciona para a página de controle de mesas para ver o resultado
+        window.location.href = '../controle-mesas/index.html'; // Ajuste o caminho se necessário
     });
 
 });
