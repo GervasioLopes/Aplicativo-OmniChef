@@ -247,3 +247,31 @@ a { text-decoration: none; color: black; }
     transform: none;
     box-shadow: none;
 }
+/* Torna o card um ponto de referência para o botão */
+.item-card {
+    position: relative; 
+}
+
+.btn-delete-item {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Deixa o botão redondo */
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-delete-item:hover {
+    background-color: #c82333; /* Vermelho mais escuro */
+    transform: scale(1.1);
+}

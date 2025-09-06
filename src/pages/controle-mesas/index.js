@@ -1,6 +1,5 @@
-// ARQUIVO: controle-mesas/index.js (VERSÃO COMPLETA COM FIREBASE)
+// ARQUIVO: controle-mesas/index.js (VERSÃO FINAL COM RELÓGIO CORRIGIDO)
 
-// Importa o 'db' do nosso arquivo de configuração e as funções do Firestore
 import { db } from '../../../public/js/firebase-config.js';
 import { collection, doc, onSnapshot, setDoc, deleteDoc, runTransaction } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -10,43 +9,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const addMesaBtn = document.querySelector('.adicionar-Mesa');
     const removeMesaBtn = document.querySelector('.remover-Mesa');
 
-    let totalTables = 6; // Valor inicial padrão
-    let tablesData = []; // Armazenará os dados das mesas em tempo real
+    let totalTables = 6;
+    let tablesData = [];
 
     // --- OUVINTES EM TEMPO REAL DO FIREBASE ---
 
-    // 1. Ouve em tempo real as configurações do salão (ex: total de mesas)
     onSnapshot(doc(db, "saloonConfig", "main"), (docSnap) => {
         if (docSnap.exists()) {
             totalTables = docSnap.data().totalTables;
         } else {
-            // Se a configuração não existe no Firebase, cria com o valor padrão
             setDoc(doc(db, "saloonConfig", "main"), { totalTables: 6 });
         }
-        renderSaloon(); // Redesenha o salão sempre que a config mudar
+        renderSaloon();
     });
 
-    // 2. Ouve em tempo real a coleção de mesas (status, pedidos, etc.)
     onSnapshot(collection(db, "tables"), (querySnapshot) => {
         tablesData = [];
         querySnapshot.forEach((doc) => {
             tablesData.push({ id: parseInt(doc.id), ...doc.data() });
         });
-        renderSaloon(); // Redesenha o salão sempre que uma mesa mudar
+        renderSaloon();
     });
 
     // --- FUNÇÕES DE INTERAÇÃO COM O FIREBASE ---
 
-    // Adicionar Mesa
     addMesaBtn.addEventListener('click', async () => {
         if (confirm('Deseja adicionar uma nova mesa ao salão?')) {
             const newTotal = totalTables + 1;
             await setDoc(doc(db, "saloonConfig", "main"), { totalTables: newTotal });
-            // A atualização da tela será automática graças ao onSnapshot
         }
     });
 
-    // Remover Mesa
     removeMesaBtn.addEventListener('click', async () => {
         const lastTableId = totalTables;
         if (lastTableId <= 1) {
@@ -59,23 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         if (confirm(`Tem certeza que deseja remover a Mesa ${lastTableId}?`)) {
-            // Remove o documento da mesa, se existir
             if (lastTableInfo) {
                 await deleteDoc(doc(db, "tables", lastTableId.toString()));
             }
-            // Atualiza a configuração
             await setDoc(doc(db, "saloonConfig", "main"), { totalTables: totalTables - 1 });
         }
     });
 
-    // --- FUNÇÕES DE RENDERIZAÇÃO E UI (semelhantes às anteriores) ---
+    // --- FUNÇÕES DE RENDERIZAÇÃO E UI ---
 
     function renderSaloon() {
         salaoGrid.innerHTML = '';
         for (let i = 1; i <= totalTables; i++) {
             const tableInfo = tablesData.find(t => t.id === i);
             const status = tableInfo ? tableInfo.status : 'livre';
-
             const btn = document.createElement('button');
             btn.className = `mesa-btn ${status}`;
             btn.style.backgroundImage = `url('/Aplicativo_OmniChef/public/assets/images/Imagens/mesas_imgs/table.svg')`;
@@ -86,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showTableDetails(tableId) {
-        // A lógica interna aqui continua muito parecida, pois `tablesData` já está atualizado
         const table = tablesData.find(t => t.id === tableId);
         const status = table ? table.status : 'livre';
+        const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
 
         if (status === 'livre') {
             painelPedido.innerHTML = `<div class="informacoes-mesa"><h2>Mesa ${tableId}</h2><p><strong>STATUS:</strong> Livre</p><hr><p class="placeholder-text">Esta mesa está disponível.</p><button class="btn-reservar" data-table-id="${tableId}">Reservar Mesa</button></div>`;
@@ -98,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let totalConsumo = 0;
             let totalPrepTime = 0;
             let itemsHTML = '';
-            const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
-
             if(table.orders && table.orders.length > 0) {
                 table.orders.forEach(order => {
                     order.items.forEach(item => {
@@ -117,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
     painelPedido.addEventListener('click', async (event) => {
         const target = event.target;
         if (!target.dataset.tableId) return;
-
         const tableId = target.dataset.tableId;
 
         if (target.matches('.btn-reservar')) {
@@ -137,10 +124,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Função de data e hora (sem alterações)
-    function updateDateTime() {
-        // Seu código de data e hora continua igual
+    // **FUNÇÃO DO RELÓGIO REINSERIDA ABAIXO**
+    function atualizarDataHora() {
+        const agora = new Date();
+        const data = agora.toLocaleDateString("pt-BR", {
+            weekday: "long", day: "2-digit", month: "long", year: "numeric"
+        });
+        const hora = agora.toLocaleTimeString("pt-BR");
+        const dataHoraEl = document.getElementById("dataHora");
+        if (dataHoraEl) {
+            dataHoraEl.innerHTML = `<span class="data">${data}</span> <span class="hora">${hora}</span>`;
+        }
     }
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
+
+    // Ponto de partida de toda a aplicação
+    renderSaloon();
+
+    // **INICIALIZAÇÃO DO RELÓGIO REINSERIDA ABAIXO**
+    atualizarDataHora(); // Chama a primeira vez
+    setInterval(atualizarDataHora, 1000); // Atualiza a cada segundo
 });

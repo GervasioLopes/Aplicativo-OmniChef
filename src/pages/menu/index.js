@@ -1,12 +1,13 @@
-// ARQUIVO: menu/index.js (VERSÃO FINAL 3.0 - CORRIGIDA E UNIFICADA)
+
+// ARQUIVO: menu/index.js (VERSÃO 8.0 - CORREÇÃO DAS ABAS DO CARDÁPIO)
 
 import { db } from '../../../public/js/firebase-config.js';
-import { doc, getDoc, collection, getDocs, addDoc, runTransaction, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { doc, getDoc, collection, getDocs, addDoc, runTransaction, Timestamp, writeBatch, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // ===================================
-    // DADOS LOCAIS (APENAS PARA A PRIMEIRA CARGA/SEED)
+    // VARIÁVEIS GLOBAIS
     // ===================================
     const localMenuData = {
         porcoes: [ { name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' }, { name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' }, { name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' }, { name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg', description: 'Cubos de tapioca com queijo coalho, acompanhados de geleia de pimenta.' }, { name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg', description: 'Tradicionais coxinhas de frango cremosas e crocantes.' }, { name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg', description: 'Kibes recheados com carne moída e especiarias, fritos na hora.' }, { name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg', description: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.' }, { name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg', description: 'Pastéis crocantes nos sabores carne, queijo e pizza.' }, { name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' }, { name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' }, { name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' }, ],
@@ -19,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedTable = null;
 
     // Seleção de Elementos do DOM
+    const cardapioContent = document.querySelector('.cardapio-content');
+    const globalTooltip = document.getElementById('global-tooltip'); 
     const orderList = document.getElementById('order-list');
     const subtotalEl = document.getElementById('subtotal');
     const serviceTaxEl = document.getElementById('service-tax');
@@ -44,15 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // FUNÇÕES DO CARDÁPIO (FIREBASE)
     // ===================================
-
     async function seedMenuToFirebase() {
-        console.log("Verificando se o cardápio precisa ser populado no Firebase...");
         const porcoesRef = collection(db, 'menuItems', 'porcoes', 'items');
         const porcoesSnapshot = await getDocs(porcoesRef);
-
         if (porcoesSnapshot.empty) {
             console.log("Banco de dados de cardápio vazio. Populando agora...");
-            alert("Populando o cardápio no banco de dados pela primeira vez. Aguarde um momento.");
             const batch = writeBatch(db);
             Object.keys(localMenuData).forEach(category => {
                 localMenuData[category].forEach(item => {
@@ -63,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             await batch.commit();
             console.log("Cardápio populado com sucesso!");
-        } else {
-            console.log("Cardápio já existe no Firebase.");
         }
     }
     
@@ -87,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetGrid) {
                 targetGrid.innerHTML = '';
                 if (liveMenuData[category].length === 0) {
-                    targetGrid.innerHTML = `<p class="empty-category-msg">Nenhum item cadastrado nesta categoria.</p>`;
+                    targetGrid.innerHTML = `<p class="empty-category-msg">Nenhum item cadastrado.</p>`;
                 } else {
                     liveMenuData[category].forEach(item => renderMenuItem(item, targetGrid));
                 }
@@ -181,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
             tableNumberEl.textContent = '--';
             clientCountEl.textContent = '--';
             renderOrderSummary();
-            document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
             window.location.href = '../controle-mesas/index.html';
         } catch (error) {
             console.error("Erro ao enviar pedido:", error);
@@ -210,8 +206,27 @@ document.addEventListener('DOMContentLoaded', () => {
         card.dataset.id = item.id;
         card.dataset.category = item.category;
         card.dataset.description = item.description;
-        card.innerHTML = `<img src="${item.image}" alt="${item.name}"><div class="card-content"><h3>${item.name}</h3><div class="card-footer"><p class="price">PREÇO:${formatCurrency(item.price)}</p><div class="prep-time"><div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div><i class="fa-solid fa-hourglass-half"></i></div></div></div>`;
-        card.addEventListener('click', () => addToOrder(item));
+
+        card.innerHTML = `
+            <button class="btn-delete-item" data-id="${item.id}" data-category="${item.category}" data-name="${item.name}" title="Remover ${item.name}">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <img src="${item.image}" alt="${item.name}">
+            <div class="card-content">
+                <h3>${item.name}</h3>
+                <div class="card-footer">
+                    <p class="price">PREÇO:${formatCurrency(item.price)}</p>
+                    <div class="prep-time">
+                        <div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div>
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                </div>
+            </div>`;
+        
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-delete-item')) return;
+            addToOrder(item);
+        });
         targetGrid.appendChild(card);
     }
 
@@ -268,7 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleSearch() {
         const searchTerm = searchInput.value.toLowerCase().trim();
-        const activeTabId = document.querySelector('.tab-button.active').dataset.target.replace('#', '');
+        const activeTabId = document.querySelector('.tab-button.active')?.dataset.target.replace('#', '');
+        if (!activeTabId) return;
         const itemsToSearch = liveMenuData[activeTabId];
         const targetGrid = document.getElementById(`${activeTabId}-grid`);
         const filteredItems = itemsToSearch.filter(item => item.name.toLowerCase().includes(searchTerm));
@@ -283,6 +299,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // EVENT LISTENERS E INICIALIZAÇÃO
     // ===================================
+    
+    cardapioContent.addEventListener('click', async (event) => {
+        const deleteButton = event.target.closest('.btn-delete-item');
+        if (!deleteButton) return;
+        const itemId = deleteButton.dataset.id;
+        const category = deleteButton.dataset.category;
+        const itemName = deleteButton.dataset.name;
+        if (confirm(`Tem certeza que deseja remover "${itemName}" do cardápio permanentemente?`)) {
+            try {
+                const itemRef = doc(db, 'menuItems', category, 'items', itemId);
+                await deleteDoc(itemRef);
+                alert(`"${itemName}" foi removido com sucesso.`);
+                loadMenuFromFirebase();
+            } catch (error) {
+                console.error("Erro ao remover o item:", error);
+                alert("Ocorreu um erro ao remover o item.");
+            }
+        }
+    });
 
     newOrderBtn.addEventListener('click', () => {
         if (activeOrder) {
@@ -314,7 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
         orderIdEl.textContent = tempId;
         tableNumberEl.textContent = selectedTable;
         clientCountEl.textContent = clients;
-        document.querySelectorAll('.items-grid').forEach(grid => grid.classList.remove('disabled'));
         renderOrderSummary();
         tableSelectionModal.classList.add('hidden');
     });
@@ -346,21 +380,59 @@ document.addEventListener('DOMContentLoaded', () => {
     openModalBtn.addEventListener('click', () => addDishModal.classList.remove('hidden'));
     cancelModalBtn.addEventListener('click', () => addDishModal.classList.add('hidden'));
 
-    // **CORRIGIDO**: Apenas UMA função initializeApp
-    async function initializeApp() {
-        // Tarefas iniciais da UI
-        document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
-        renderOrderSummary();
-    
-        // Configura o relógio para atualizar
-        updateDateTime(); // Chama o relógio a primeira vez
-        setInterval(updateDateTime, 60000); // Manda o relógio atualizar a cada 60 segundos (1 minuto)
-    
-        // Carrega os dados essenciais do Firebase
-        await seedMenuToFirebase(); // Garante que o DB não está vazio
-        await loadMenuFromFirebase(); // Carrega os dados do cardápio para a tela
+    if (globalTooltip && cardapioContent) {
+        cardapioContent.addEventListener('mouseover', (event) => {
+            const card = event.target.closest('.item-card');
+            if (!card) return;
+            const description = card.dataset.description;
+            if (!description) return;
+            globalTooltip.textContent = description;
+            globalTooltip.classList.remove('hidden');
+            const cardRect = card.getBoundingClientRect();
+            let top = cardRect.top - globalTooltip.offsetHeight - 10;
+            let left = cardRect.left + (cardRect.width / 2) - (globalTooltip.offsetWidth / 2);
+            if (top < 10) { top = cardRect.bottom + 10; }
+            if (left < 10) { left = 10; }
+            if (left + globalTooltip.offsetWidth > window.innerWidth) {
+                left = window.innerWidth - globalTooltip.offsetWidth - 10;
+            }
+            globalTooltip.style.top = `${top + window.scrollY}px`;
+            globalTooltip.style.left = `${left + window.scrollX}px`;
+        });
+        cardapioContent.addEventListener('mouseout', (event) => {
+            const card = event.target.closest('.item-card');
+            if (card) {
+                globalTooltip.classList.add('hidden');
+            }
+        });
     }
 
-    // Ponto de partida de toda a aplicação
+    async function initializeApp() {
+        renderOrderSummary();
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+        // await seedMenuToFirebase();
+        await loadMenuFromFirebase();
+        
+        // **LÓGICA DAS ABAS REINSERIDA ABAIXO**
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const contentPanes = document.querySelectorAll('.content-pane');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove a classe 'active' de todos os botões e painéis
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                contentPanes.forEach(pane => pane.classList.remove('active'));
+
+                // Adiciona a classe 'active' ao botão clicado e ao painel correspondente
+                button.classList.add('active');
+                const targetPane = document.querySelector(button.dataset.target);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+    }
+
     initializeApp();
 });
