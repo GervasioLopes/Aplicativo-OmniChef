@@ -1,3 +1,5 @@
+// Arquivo: Aplicativo_OmniChef\src-pages\menu\index.js (VERSÃO FINAL CORRIGIDA)
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // ===================================
@@ -5,20 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     
     const menuData = {
-    porcoes: [
-        // TODOS OS SEUS PRATOS ORIGINAIS ESTÃO AQUI AGORA
-        { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' },
-        { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' },
-        { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' },
-        { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg', description: 'Cubos de tapioca com queijo coalho, acompanhados de geleia de pimenta.' },
-        { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg', description: 'Tradicionais coxinhas de frango cremosas e crocantes.' },
-        { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg', description: 'Kibes recheados com carne moída e especiarias, fritos na hora.' },
-        { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg', description: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.' },
-        { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg', description: 'Pastéis crocantes nos sabores carne, queijo e pizza.' },
-        { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' },
-        { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' },
-        { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' },
-    ],
+        porcoes: [
+            { id: 1, name: 'FRANGO A PASSARINHO', price: 25.00, prepTime: 20, image: '../../../public/assets/images/Imagens/Frango-a-passarinho.jpg', description: 'Deliciosos pedaços de frango frito, crocantes por fora e macios por dentro.' },
+            { id: 2, name: 'BATATA FRITA C/ CHEDDAR', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Batata-frita-com-chedar.jpg', description: 'Porção generosa de batatas fritas cobertas com queijo cheddar cremoso e bacon.' },
+            { id: 3, name: 'CALABRESA ACEBOLADA', price: 30.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Calabresa-acebolada.jpg', description: 'Linguiça calabresa fatiada e salteada com anéis de cebola dourada.' },
+            { id: 4, name: 'DADINHO DE TAPIOCA', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Dadinho-de-tapioca.jpeg', description: 'Cubos de tapioca com queijo coalho, acompanhados de geleia de pimenta.' },
+            { id: 5, name: 'COXINHA 8 UNIDS', price: 20.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Coxinha.jpg', description: 'Tradicionais coxinhas de frango cremosas e crocantes.' },
+            { id: 6, name: 'KIBE 8 UNIDS', price: 35.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Kibe.jpg', description: 'Kibes recheados com carne moída e especiarias, fritos na hora.' },
+            { id: 7, name: 'ONION RINGS', price: 25.00, prepTime: 10, image: '../../../public/assets/images/Imagens/Onion-rings.jpg', description: 'Anéis de cebola empanados e fritos, servidos com molho barbecue.' },
+            { id: 8, name: 'PASTEL 6 UNIDS', price: 25.00, prepTime: 15, image: '../../../public/assets/images/Imagens/Pastel.jpg', description: 'Pastéis crocantes nos sabores carne, queijo e pizza.' },
+            { id: 9, name: 'POLENTA FRITA', price: 20.00, prepTime: 18, image: '../../../public/assets/images/Imagens/Polenta-frita.jpg', description: 'Tiras de polenta frita crocantes, perfeitas para petiscar.' },
+            { id: 10, name: 'SALADA DE BATATA C/ OVO', price: 16.00, prepTime: 14, image: '../../../public/assets/images/Imagens/Salada-batata-ovo.jpg', description: 'Salada de batata cremosa com ovos cozidos e maionese caseira.' },
+            { id: 11, name: 'CARANGUEJO RECHEADO', price: 48.00, prepTime: 27, image: '../../../public/assets/images/Imagens/Caranguejo-recheado.jpg', description: 'Casquinha de caranguejo recheada com sua própria carne e temperos especiais.' },
+        ],
         drinks: [
             { id: 101, name: 'COCA-COLA LATA', price: 8.00, prepTime: 1, image: 'https://via.placeholder.com/180x120.png?text=Coca-Cola', description: 'Coca-Cola gelada 350ml.' },
             { id: 102, name: 'SUCO DE LARANJA 500ML', price: 12.00, prepTime: 5, image: 'https://via.placeholder.com/180x120.png?text=Suco', description: 'Suco natural de laranja feito na hora.' },
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceTaxEl = document.getElementById('service-tax');
     const totalEl = document.getElementById('total');
     const cancelButton = document.querySelector('.btn-cancel');
+    const submitButton = document.querySelector('.btn-submit');
     const searchInput = document.querySelector('.search-input');
     const searchButton = document.querySelector('.botao-pequisa');
     const openModalBtn = document.getElementById('open-modal-btn');
@@ -57,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const startOrderBtn = document.getElementById('start-order-btn');
     const orderIdEl = document.getElementById('order-id');
     const tableNumberEl = document.getElementById('table-number');
+    const clientCountEl = document.getElementById('client-count');
+    const clientNumberInput = document.getElementById('client-number-input');
 
     // ===================================
     // FUNÇÕES PRINCIPAIS
@@ -65,15 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
 
     function renderMenuItem(item, targetGrid) {
-    const card = document.createElement('div');
-    card.className = 'item-card';
-    // Adicionamos o 'data-description' com a descrição do prato
-    card.dataset.description = item.description; 
-    // Removemos o <div class="tooltip">...</div> do innerHTML
-    card.innerHTML = `<img src="${item.image}" alt="${item.name}"><div class="card-content"><h3>${item.name}</h3><div class="card-footer"><p class="price">PREÇO:${formatCurrency(item.price)}</p><div class="prep-time"><div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div><i class="fa-solid fa-hourglass-half"></i></div></div></div>`;
-    card.addEventListener('click', () => addToOrder(item));
-    targetGrid.appendChild(card);
-}
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.dataset.description = item.description; 
+        card.innerHTML = `<img src="${item.image}" alt="${item.name}"><div class="card-content"><h3>${item.name}</h3><div class="card-footer"><p class="price">PREÇO:${formatCurrency(item.price)}</p><div class="prep-time"><div class="prep-time-text"><span>Preparo</span><span>${item.prepTime} Min</span></div><i class="fa-solid fa-hourglass-half"></i></div></div></div>`;
+        card.addEventListener('click', () => addToOrder(item));
+        targetGrid.appendChild(card);
+    }
 
     function addToOrder(itemToAdd) {
         if (!activeOrder) {
@@ -146,9 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeTabId = document.querySelector('.tab-button.active').dataset.target.replace('#', ''); 
         const itemsToSearch = menuData[activeTabId];
         const targetGrid = document.getElementById(`${activeTabId}-grid`);
-
         const filteredItems = itemsToSearch.filter(item => item.name.toLowerCase().includes(searchTerm));
-        
         targetGrid.innerHTML = '';
         if (filteredItems.length === 0) {
             targetGrid.innerHTML = '<p style="text-align: center; color: #888; grid-column: 1 / -1;">Nenhum item encontrado.</p>';
@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         populateTables();
         selectedTable = null;
+        clientNumberInput.value = 1; 
         tableSelectionModal.classList.remove('hidden');
     });
 
@@ -201,15 +202,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     startOrderBtn.addEventListener('click', () => {
+        const numberOfClients = parseInt(clientNumberInput.value, 10);
+
         if (!selectedTable) {
-            alert('Por favor, selecione uma mesa para iniciar o pedido.');
+            alert('Por favor, selecione uma mesa.');
             return;
         }
+        if (!numberOfClients || numberOfClients < 1) {
+            alert('Por favor, insira um número de clientes válido.');
+            return;
+        }
+
         const newOrderId = Math.floor(Date.now() / 1000).toString().slice(-6);
-        activeOrder = { id: newOrderId, table: selectedTable, items: [] };
+        activeOrder = { id: newOrderId, table: selectedTable, items: [], clients: numberOfClients };
         
         orderIdEl.textContent = activeOrder.id;
         tableNumberEl.textContent = activeOrder.table;
+        clientCountEl.textContent = activeOrder.clients;
+        
         document.querySelectorAll('.items-grid').forEach(grid => grid.classList.remove('disabled'));
         renderOrderSummary();
         tableSelectionModal.classList.add('hidden');
@@ -221,10 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
     addDishForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const category = document.getElementById('dish-category').value;
-        
         const allIds = [].concat(...Object.values(menuData)).map(i => i.id);
         const newId = allIds.length > 0 ? Math.max(...allIds) + 1 : 1;
-
         const newDish = {
             id: newId,
             name: document.getElementById('dish-name').value.toUpperCase(),
@@ -233,13 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
             image: document.getElementById('dish-image').value,
             description: document.getElementById('dish-description').value
         };
-
         menuData[category].push(newDish);
-
         const targetGrid = document.getElementById(`${category}-grid`);
         targetGrid.innerHTML = ''; 
         menuData[category].forEach(item => renderMenuItem(item, targetGrid));
-        
         addDishForm.reset();
         addDishModal.classList.add('hidden');
     });
@@ -268,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function initializeApp() {
         searchInput.value = '';
         document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
-
         Object.keys(menuData).forEach(category => {
             const items = menuData[category];
             const targetGrid = document.getElementById(`${category}-grid`);
@@ -277,16 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 items.forEach(item => renderMenuItem(item, targetGrid));
             }
         });
-        
         renderOrderSummary();
         updateDateTime();
         setInterval(updateDateTime, 60000);
-        
         cancelButton.addEventListener('click', cancelOrder);
         searchInput.addEventListener('input', handleSearch);
         searchButton.addEventListener('click', handleSearch);
-
-        // Lógica de controle das abas
         const tabButtons = document.querySelectorAll('.tab-button');
         const contentPanes = document.querySelectorAll('.content-pane');
         tabButtons.forEach(button => {
@@ -303,51 +303,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initializeApp();
-    // ... todo o seu código anterior ...
-    initializeApp();
 
-    // ==========================================================
-    // CONTROLE DO TOOLTIP GLOBAL (SOLUÇÃO DEFINITIVA)
-    // ==========================================================
+    // CONTROLE DO TOOLTIP GLOBAL
     const globalTooltip = document.getElementById('global-tooltip');
+    if (globalTooltip) {
+        document.querySelector('.cardapio-content').addEventListener('mouseover', (event) => {
+            const card = event.target.closest('.item-card');
+            if (!card) return;
+            const description = card.dataset.description;
+            if (!description) return;
+            globalTooltip.textContent = description;
+            globalTooltip.classList.remove('hidden');
+            const cardRect = card.getBoundingClientRect();
+            const tooltipRect = globalTooltip.getBoundingClientRect();
+            let top = cardRect.top - tooltipRect.height - 8;
+            let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2);
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            globalTooltip.style.top = `${top}px`;
+            globalTooltip.style.left = `${left}px`;
+        });
+        document.querySelector('.cardapio-content').addEventListener('mouseout', (event) => {
+            const card = event.target.closest('.item-card');
+            if (card) {
+                globalTooltip.classList.add('hidden');
+            }
+        });
+    }
 
-    // Usamos delegação de eventos para eficiência
-    document.querySelector('.cardapio-content').addEventListener('mouseover', (event) => {
-        const card = event.target.closest('.item-card');
-        if (!card) return; // Se o mouse não estiver sobre um card, não faz nada
+    // LÓGICA PARA ENVIAR O PEDIDO
+    submitButton.addEventListener('click', () => {
+        if (!activeOrder || activeOrder.items.length === 0) {
+            alert('Não há itens no pedido para enviar.');
+            return;
+        }
 
-        // Pega a descrição do atributo de dados do card
-        const description = card.dataset.description;
-        if (!description) return;
+        activeOrder.timestamp = new Date().toISOString();
+        activeOrder.status = 'aFazer';
 
-        // Atualiza o conteúdo do tooltip
-        globalTooltip.textContent = description;
-        globalTooltip.classList.remove('hidden');
+        let allOrders = JSON.parse(localStorage.getItem('omniChefOrders')) || [];
+        allOrders.push(activeOrder);
+        localStorage.setItem('omniChefOrders', JSON.stringify(allOrders));
 
-        // Calcula a posição do tooltip
-        const cardRect = card.getBoundingClientRect();
-        const tooltipRect = globalTooltip.getBoundingClientRect();
-
-        // Posiciona o tooltip acima e centralizado em relação ao card
-        let top = cardRect.top - tooltipRect.height - 8; // 8px de espaço
-        let left = cardRect.left + (cardRect.width / 2) - (tooltipRect.width / 2);
+        alert(`Pedido #${activeOrder.id} enviado para a cozinha!`);
         
-        // Garante que o tooltip não saia pela esquerda ou direita da tela
-        if (left < 10) left = 10; // 10px de margem
-        if (left + tooltipRect.width > window.innerWidth) {
-            left = window.innerWidth - tooltipRect.width - 10;
-        }
+        activeOrder = null;
+        
+        orderIdEl.textContent = '--';
+        tableNumberEl.textContent = '--';
+        clientCountEl.textContent = '--';
+        renderOrderSummary();
+        document.querySelectorAll('.items-grid').forEach(grid => grid.classList.add('disabled'));
 
-        globalTooltip.style.top = `${top}px`;
-        globalTooltip.style.left = `${left}px`;
+        window.location.href = '../pedidos/index.html';
     });
 
-    document.querySelector('.cardapio-content').addEventListener('mouseout', (event) => {
-        const card = event.target.closest('.item-card');
-        if (card) {
-            // Esconde o tooltip ao tirar o mouse do card
-            globalTooltip.classList.add('hidden');
-        }
-    });
-
-}); // Fim do 'DOMContentLoaded'
+});

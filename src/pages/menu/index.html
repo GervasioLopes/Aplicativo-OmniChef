@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu | Omni Chef</title>
 
     <link rel="icon" href="../../../public/assets/images/Imagens/Logo.png">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
     <link rel="stylesheet" href="../../../public/global/style.css">
     <link rel="stylesheet" href="./index.css">
+
+    <title>Menu | Omni Chef</title>
+
 </head>
 <body>
 
@@ -83,6 +83,7 @@
             <div class="order-header">
                 <h2>PEDIDO #<span id="order-id">--</span></h2>
                 <div class="order-meta">
+                    <span><i class="fas fa-users"></i> CLIENTES: <strong id="client-count">--</strong></span>
                     <span><i class="fas fa-chair"></i> MESA: <strong id="table-number">--</strong></span>
                 </div>
             </div>
@@ -138,15 +139,21 @@
         </div>
 
         <div id="table-selection-modal" class="modal-overlay hidden">
-            <div class="modal-content">
-                <h2>Selecione a Mesa</h2>
-                <div class="tables-grid" id="tables-grid">
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-submit-modal" id="start-order-btn">Iniciar Pedido</button>
-                </div>
-            </div>
+    <div class="modal-content">
+        <h2>Selecione a Mesa</h2>
+        
+        <div class="form-group">
+            <label for="client-number-input">Número de Clientes</label>
+            <input type="number" id="client-number-input" value="1" min="1" required style="text-align: center; font-size: 1.2em;">
         </div>
+
+        <div class="tables-grid" id="tables-grid">
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn-submit-modal" id="start-order-btn">Iniciar Pedido</button>
+        </div>
+    </div>
+</div>
 
     </main>
     

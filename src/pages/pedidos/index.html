@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos | Omni Chef</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../../public/global/style.css"> 
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <header class="cabecalho2">
+        <div class="logo-caixa-pesquisa">
+            <img src="../../../public/assets/images/Imagens/Logo.png" alt="Omni Chef Logo" class="logo">
+        </div>
+        <div class="paragrafo-botao">
+            <i class="fa-regular fa-calendar"></i>
+            <p id="datetime">--</p>
+        </div>
+    </header>
+
+    <main class="container-Main2">
+        <aside class="sidebar" id="sidebar">
+            <nav class="menu">
+                <ul>
+                    <li><a href="../home/index.html"><i class="fa-solid fa-tv"></i>HOME</a></li>
+                    <li><a href="../menu/index.html"><i class="fa-solid fa-utensils"></i>MENU</a></li>
+                    <li><a href="#" class="ativo"><i class="fa-solid fa-bell-concierge"></i>PEDIDOS</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i>SETTINGS</a></li>
+                    <li class="version">V. 1.0</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <section class="pedidos-board">
+            <div class="coluna-pedidos" id="coluna-aFazer">
+                <h2><i class="fas fa-receipt"></i> A FAZER</h2>
+                <div class="cards-container" id="container-aFazer"></div>
+            </div>
+            <div class="coluna-pedidos" id="coluna-emPreparo">
+                <h2><i class="fas fa-fire-burner"></i> EM PREPARO</h2>
+                <div class="cards-container" id="container-emPreparo"></div>
+            </div>
+            <div class="coluna-pedidos" id="coluna-pronto">
+                <h2><i class="fas fa-bell"></i> PRONTO</h2>
+                <div class="cards-container" id="container-pronto"></div>
+            </div>
+        </section>
+    </main>
+    
+    <script src="./index.js"></script>
+</body>
+</html>
