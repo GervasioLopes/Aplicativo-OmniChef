@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const status = tableInfo ? tableInfo.status : 'livre';
             const btn = document.createElement('button');
             btn.className = `mesa-btn ${status}`;
-            btn.style.backgroundImage = `url('/Aplicativo_OmniChef/public/assets/images/Imagens/mesas_imgs/table.svg')`;
+            btn.style.backgroundImage = `url('../../../public/assets/images/imagens/mesas_imgs/table.svg')`;
             btn.innerHTML = `<span>Mesa ${i}</span>`;
             btn.addEventListener('click', () => showTableDetails(i));
             salaoGrid.appendChild(btn);
