@@ -74,7 +74,7 @@ Aqui estão algumas telas do sistema (substitua os links abaixo pelas imagens re
 ## 📑 Documentação
 A documentação completa do projeto pode ser acessada no link abaixo:  
 
-👉 [📄 Documentação do Projeto (PDF)](public\assets\readme\docs\PI_Grupo_02_OmniChef.pdf)  
+👉 [📄 Documentação do Projeto (PDF)](public/assets/readme/docs)  
 
 
 
@@ -88,5 +88,6 @@ A documentação completa do projeto pode ser acessada no link abaixo:
 - [**Luiz Fernando de Oliveira Penteado**](https://github.com/LuizFPenteado)  
 
 ---
+
 
 📌 **Status do Projeto:** 🚧 *Em desenvolvimento*  
