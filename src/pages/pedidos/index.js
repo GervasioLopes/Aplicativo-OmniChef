@@ -1,6 +1,3 @@
-// ARQUIVO: pedidos/index.js (VERSÃO COMPLETA E FINAL COM FIREBASE)
-
-// Importa o 'db' e as funções necessárias do Firestore
 import { db } from '../../../public/js/firebase-config.js';
 import { collection, onSnapshot, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -19,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- LISTENER EM TEMPO REAL PARA A COLEÇÃO DE PEDIDOS ---
-    // Cria uma query para ordenar os pedidos do mais antigo para o mais novo
     const q = query(collection(db, "orders"), orderBy("timestamp", "asc"));
 
     onSnapshot(q, (querySnapshot) => {
@@ -32,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         querySnapshot.forEach((doc) => {
-
             const order = { ...doc.data(), id: doc.id }; 
             const cardElement = createOrderCard(order);
             const targetContainer = statusMap[order.status];
@@ -42,17 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Função para criar o HTML de um card de pedido (com ajuste para o timestamp do Firebase)
+    // Função para criar o HTML de um card de pedido
     function createOrderCard(order) {
         const card = document.createElement('div');
         card.className = 'order-card';
-        card.dataset.id = order.id; // Usa o ID real do Firestore
+        card.dataset.id = order.id;
 
         const itemsList = order.items.map(item => 
             `<li><span>${item.quantity}x ${item.name}</span> <span>${formatCurrency(item.price * item.quantity)}</span></li>`
         ).join('');
         
-        // Converte o timestamp do Firebase para um objeto Date do JavaScript
         const orderTime = order.timestamp.toDate().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
         let actionButtonHTML = '';
@@ -66,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.innerHTML = `
             <div class="card-header">
-                <span>Pedido #${order.id.substring(0, 6)}</span> <span>Mesa ${order.table} - ${order.clients} Clientes</span>
+                <span>Pedido #${order.id}</span> <span>Mesa ${order.table} - ${order.clients} Clientes</span>
             </div>
             <div class="card-body"><ul>${itemsList}</ul></div>
             <div class="card-footer">
@@ -88,14 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 if (action === 'start') {
-                    // Atualiza o status do pedido para 'emPreparo' no Firebase
                     await updateDoc(orderRef, { status: 'emPreparo' });
                 } else if (action === 'ready') {
-                    // Atualiza o status do pedido para 'pronto' no Firebase
                     await updateDoc(orderRef, { status: 'pronto' });
                 } else if (action === 'finish') {
                     if (confirm(`Tem certeza que deseja finalizar este pedido?`)) {
-                        // Deleta o documento do pedido do Firebase
                         await deleteDoc(orderRef);
                     }
                 }

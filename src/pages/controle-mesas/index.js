@@ -1,5 +1,3 @@
-// ARQUIVO: controle-mesas/index.js (VERSÃO FINAL COM RELÓGIO CORRIGIDO)
-
 import { db } from '../../../public/js/firebase-config.js';
 import { collection, doc, onSnapshot, setDoc, deleteDoc, runTransaction } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -87,18 +85,25 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (status === 'ocupada') {
             let totalConsumo = 0;
             let totalPrepTime = 0;
-            let itemsHTML = '';
+            let ordersHTML = ''; // Alterado de itemsHTML para ordersHTML para mais clareza
+
             if(table.orders && table.orders.length > 0) {
+                // Itera sobre cada PEDIDO da mesa
                 table.orders.forEach(order => {
+                    // Adiciona um título para cada pedido com seu ID
+                    ordersHTML += `<h4 class="order-id-header">Pedido #${order.id}</h4>`;
+                    
+                    // Itera sobre os ITENS de cada pedido
                     order.items.forEach(item => {
                         const itemTotal = item.price * item.quantity;
                         totalConsumo += itemTotal;
                         if (item.prepTime) { totalPrepTime += item.prepTime * item.quantity; }
-                        itemsHTML += `<li>${item.quantity}x ${item.name} <span>${formatCurrency(itemTotal)}</span></li>`;
+                        ordersHTML += `<li>${item.quantity}x ${item.name} <span>${formatCurrency(itemTotal)}</span></li>`;
                     });
                 });
             }
-            painelPedido.innerHTML = `<div class="informacoes-mesa"><h2>Mesa ${table.name || `Mesa ${table.id}`}</h2><p><strong>STATUS:</strong> <span class="status-ocupada">Ocupada</span></p><p><strong>CLIENTES:</strong> ${table.clients}</p><p><strong>PREPARO TOTAL:</strong> <i class="fa-solid fa-hourglass-half"></i> ${totalPrepTime} Minutos</p><hr><h3>Itens Consumidos</h3><ul class="lista-pedidos">${itemsHTML}</ul><div class="total-container"><strong>Total:</strong><span>${formatCurrency(totalConsumo)}</span></div><button class="btn-fechar" data-table-id="${table.id}">Fechar Conta</button></div>`;
+            
+            painelPedido.innerHTML = `<div class="informacoes-mesa"><h2>Mesa ${table.name || `Mesa ${table.id}`}</h2><p><strong>STATUS:</strong> <span class="status-ocupada">Ocupada</span></p><p><strong>CLIENTES:</strong> ${table.clients}</p><p><strong>PREPARO TOTAL:</strong> <i class="fa-solid fa-hourglass-half"></i> ${totalPrepTime} Minutos</p><hr><h3>Itens Consumidos</h3><ul class="lista-pedidos">${ordersHTML}</ul><div class="total-container"><strong>Total:</strong><span>${formatCurrency(totalConsumo)}</span></div><button class="btn-fechar" data-table-id="${table.id}">Fechar Conta</button></div>`;
         }
     }
     
@@ -124,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // **FUNÇÃO DO RELÓGIO REINSERIDA ABAIXO**
     function atualizarDataHora() {
         const agora = new Date();
         const data = agora.toLocaleDateString("pt-BR", {
@@ -137,10 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Ponto de partida de toda a aplicação
     renderSaloon();
-
-    // **INICIALIZAÇÃO DO RELÓGIO REINSERIDA ABAIXO**
-    atualizarDataHora(); // Chama a primeira vez
-    setInterval(atualizarDataHora, 1000); // Atualiza a cada segundo
+    atualizarDataHora();
+    setInterval(atualizarDataHora, 1000);
 });
+
+
+
+
+
+

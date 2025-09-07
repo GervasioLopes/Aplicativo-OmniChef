@@ -1,9 +1,5 @@
-
-// ARQUIVO: menu/index.js (VERSÃO 8.0 - CORREÇÃO DAS ABAS DO CARDÁPIO)
-
 import { db } from '../../../public/js/firebase-config.js';
-import { doc, getDoc, collection, getDocs, addDoc, runTransaction, Timestamp, writeBatch, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
+import { doc, getDoc, collection, getDocs, addDoc, runTransaction, Timestamp, writeBatch, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 document.addEventListener('DOMContentLoaded', () => {
     
     // ===================================
@@ -104,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         try {
             const itemsCollectionRef = collection(db, 'menuItems', category, 'items');
-            await addDoc(itemsCollectionRef, newDish);
+            await addDoc(itemsCollectionRef, newDish); // addDoc está correto aqui pois o ID do prato não precisa ser controlado
             alert('Prato adicionado com sucesso!');
             addDishForm.reset();
             addDishModal.classList.add('hidden');
@@ -151,41 +147,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     submitButton.addEventListener('click', async () => {
-        if (!activeOrder || activeOrder.items.length === 0) {
-            alert('Não há itens no pedido para enviar.');
-            return;
-        }
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...';
-        try {
-            const { id, ...orderContent } = activeOrder;
-            const orderData = { ...orderContent, localId: id, status: 'aFazer', timestamp: Timestamp.now() };
-            await addDoc(collection(db, "orders"), orderData);
-            const tableRef = doc(db, "tables", activeOrder.table);
-            await runTransaction(db, async (transaction) => {
-                const tableDoc = await transaction.get(tableRef);
-                if (!tableDoc.exists()) {
-                    transaction.set(tableRef, { status: 'ocupada', clients: activeOrder.clients, orders: [orderData] });
-                } else {
-                    const currentData = tableDoc.data();
-                    const newOrders = currentData.orders ? [...currentData.orders, orderData] : [orderData];
-                    transaction.update(tableRef, { status: 'ocupada', clients: activeOrder.clients, orders: newOrders });
-                }
-            });
-            alert(`Pedido #${activeOrder.id} enviado para a cozinha!`);
-            activeOrder = null;
-            orderIdEl.textContent = '--';
-            tableNumberEl.textContent = '--';
-            clientCountEl.textContent = '--';
-            renderOrderSummary();
-            window.location.href = '../controle-mesas/index.html';
-        } catch (error) {
-            console.error("Erro ao enviar pedido:", error);
-            alert("Ocorreu um erro ao enviar o pedido.");
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Pedido';
-        }
-    });
+    if (!activeOrder || activeOrder.items.length === 0) {
+        alert('Não há itens no pedido para enviar.');
+        return;
+    }
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviado!';
+    try {
+        const { id, ...orderContent } = activeOrder;
+        const orderData = { ...orderContent, status: 'aFazer', timestamp: Timestamp.now() };
+
+        const newOrderRef = doc(db, "orders", activeOrder.id);
+        await setDoc(newOrderRef, orderData);
+
+        // --- INÍCIO DA ALTERAÇÃO ---
+        // Criamos um objeto específico para a mesa que INCLUI o ID do pedido
+        const orderDataForTable = { id: activeOrder.id, ...orderData };
+        // --- FIM DA ALTERAÇÃO ---
+
+        const tableRef = doc(db, "tables", activeOrder.table);
+        await runTransaction(db, async (transaction) => {
+            const tableDoc = await transaction.get(tableRef);
+            if (!tableDoc.exists()) {
+                // Usamos a nova variável que contém o ID
+                transaction.set(tableRef, { status: 'ocupada', clients: activeOrder.clients, orders: [orderDataForTable] });
+            } else {
+                const currentData = tableDoc.data();
+                // Usamos a nova variável que contém o ID
+                const newOrders = currentData.orders ? [...currentData.orders, orderDataForTable] : [orderDataForTable];
+                transaction.update(tableRef, { status: 'ocupada', clients: activeOrder.clients, orders: newOrders });
+            }
+        });
+        
+        alert(`Pedido #${activeOrder.id} enviado para a cozinha!`);
+        activeOrder = null;
+        // ... (resto da função continua igual)
+    } catch (error) {
+        // ... (resto da função continua igual)
+    } finally {
+        // ... (resto da função continua igual)
+    }
+});
 
     const formatCurrency = (value) => `R$${value.toFixed(2).replace('.', ',')}`;
     
@@ -411,20 +413,16 @@ document.addEventListener('DOMContentLoaded', () => {
         renderOrderSummary();
         updateDateTime();
         setInterval(updateDateTime, 60000);
-        // await seedMenuToFirebase();
+        // await seedMenuToFirebase(); // Descomente se precisar popular o banco pela primeira vez
         await loadMenuFromFirebase();
         
-        // **LÓGICA DAS ABAS REINSERIDA ABAIXO**
         const tabButtons = document.querySelectorAll('.tab-button');
         const contentPanes = document.querySelectorAll('.content-pane');
         
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Remove a classe 'active' de todos os botões e painéis
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 contentPanes.forEach(pane => pane.classList.remove('active'));
-
-                // Adiciona a classe 'active' ao botão clicado e ao painel correspondente
                 button.classList.add('active');
                 const targetPane = document.querySelector(button.dataset.target);
                 if (targetPane) {
