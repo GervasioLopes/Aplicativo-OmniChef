@@ -63,7 +63,7 @@ Aqui estão algumas telas do sistema (substitua os links abaixo pelas imagens re
 
 | Tela Inicial | Controle de Mesas |
 |--------------|-------------------|
-| ![Tela Inicial](public\assets\readme\images\Home.png) | ![Controle de Mesas](public/assets/readme/images/Controle%20Mesas-1.png) |
+| ![Tela Inicial](public/assets/readme/images/Home.png) | ![Controle de Mesas](public/assets/readme/images/Controle%20Mesas-1.png) |
 
 | Menu | Pedidos |
 |------|---------|
@@ -91,4 +91,5 @@ A documentação completa do projeto pode ser acessada no link abaixo:
 
 
 📌 **Status do Projeto:** 🚧 *Em desenvolvimento*  
+
 
