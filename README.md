@@ -48,7 +48,7 @@ APLICATIVO_OMNICHEF
 ## ⚙️ Como Executar
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/APLICATIVO_OMNICHEF.git
+   https://github.com/GervasioLopes/Aplicativo_OmniChef.git
    ```
 2. Acesse a pasta do projeto:
    ```bash
@@ -91,5 +91,6 @@ A documentação completa do projeto pode ser acessada no link abaixo:
 
 
 📌 **Status do Projeto:** 🚧 *Em desenvolvimento*  
+
 
 
